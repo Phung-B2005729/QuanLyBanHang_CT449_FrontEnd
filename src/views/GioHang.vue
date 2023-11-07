@@ -67,28 +67,39 @@
                                     </div>
                                 </td>
                                 <td class="pt-3"> 
-                                  {{giohang.tenhh}}
+                                  <div class="col">
+                                    {{giohang.tenhh}}
+                                  </div>
+                                  <div class="col">
+                                     (Tồn kho: {{giohang.soluongtonkho}})
+                                  </div>
+                                  <div class="col text-error">
+                                  {{giohang.message}}
+                                  </div>
                                 </td>
                                 <td class="pt-3">{{formattedGia(giohang.gia)}}</td>
                                 <!-- tang giam sl -->
                                 <td class="pt-3">
-                                  <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                            <p @click="giamsoluong()"  class="btn btn-outline-secondary"><i class="fas fa-minus"></i></p>
+                                
+                                    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+                                            <p @click="giamsoluong(giohang)"  class="btn btn-outline-secondary"><i class="fas fa-minus"></i></p>
                                             <p class="btn btn-outline-secondary">{{giohang.soluong}}</p>
-                                            <p @click="tangsoluong()" class="btn btn-outline-secondary"><i class="fa fa-plus"></i></p>
-                                    <p class="text-error">{{this.message}}</p>
-                                    </div>
+                                            <p @click="tangsoluong(giohang)" class="btn btn-outline-secondary"><i class="fa fa-plus"></i></p>
+                                   
+                                  
+                                  </div>
+                               
+                                   
                                 </td>
                                 <!-- thung rac -->
                                 
                                 <!-- tong tien -->
                                 <td class=" pt-3">
-                                  {{formattedGia(giohang.thanhtien)}}
+                                  {{formattedGia(giohang.soluong*giohang.gia)}}
                                 </td>
                                 <td class="pt-3">
                                     <div>
-                                        <i class=" fa-solid fa-trash icon-xoa" @click="deleteSanPhamGioHang(giohang._id)"></i>
-
+                                        <i class=" fa-solid fa-trash icon-xoa" @click="deleteSPGioHang (giohang._id)"></i>
                                     </div>
                                 </td>
                             </tr>
@@ -100,23 +111,23 @@
 
             <div class="col-4 table_thanhtoan offset-8">
                     <table class="table table-light">
-                        <tr class="position-relative">
-                            <th scope="col">Tổng Tiền (<span>VND</span>)</th>
-                            <th scope="col" class=" text-danger position-absolute top-50 end-0 translate-middle-y">
-                                0Đ </th>
+                        <tr class="position-relative mt-5">
+                            <th scope="col-4">Tổng Tiền (VND) :</th>
+                            <th scope="col" class=" text-danger ">
+                              {{formattedGia(tongsotien)}} </th>
                         </tr>
-                        <tr>
+                        <tr >
                             <td colspan="2">
-                                <div class="row">
-                                    <div class="col-12">
+                              
+                                    <div class="col-12 mt-3 ">
                                       <!--Truyển trang thanh toán-->
-                                        <button type="submit" href="cart_bill.php"
-                                            class="text-center mt-2 text-light form-control bg-danger shadow-sm rounded">
+                                        <button type="submit" 
+                                            class="text-center mt-2 text-light form-control bg-danger">
                                            THANH TOÁN
                                         </button>
                                     </div>
                                    
-                                </div>
+                                
                             </td>
                         </tr>
                         
@@ -147,36 +158,33 @@
     data(){
       return {
         listgiohang: [],
-        message: null
+        message: null,
+        tongsotien: 0
       }
-    }
-    ,
-    watch: {
-    listgiohang: {
-      handler: "getSPGioHang", // Call getSPGioHang when listgiohang changes
-      deep: true, // Watch for changes in nested properties
     },
-  },
     methods: {
       async getSPGioHang(){
       const idkhachhang = this.$route.query.id;
+      this.tongsotien=0;
       try{
-        
       if(idkhachhang!=null){
           this.listgiohang = await giohangService.getALLSPGioHangKhachHang(idkhachhang);
         if(this.listgiohang){
           this.listgiohang.forEach(async (giohang) => {
-            giohang.thanhtien = await giohang.gia*giohang.soluong;
+          giohang.message = null;
+          this.tongsotien = this.tongsotien + (giohang.soluong*giohang.gia);
            const hinhanh = await hinhanhService.getHinhAnhSanPham(giohang.idhanghoa);
            const sanpham = await hanghoaService.getById(giohang.idhanghoa);
            if (hinhanh.length > 0 && sanpham) {
              giohang.linkanh = hinhanh[0].linkanh;
              giohang.tenhh = sanpham.tenhh;
+             alert
              giohang.soluongtonkho = sanpham.soluong;
             
            } else {
              giohang.linkanh = ''; // Hoặc đặt giá trị mặc định nếu không có hình ảnh
              giohang.tenhh = '';
+             giohang.soluongtonkho='';
            }
         })
       }
@@ -186,21 +194,66 @@
         alert('Lỗi' + e.response.status);
     }
     },
-    async deleteSanPhamGioHang (idgiohang) {
+    async deleteSPGioHang (idgiohang){
       try{
-        if(idgiohang){
-          const resu = await giohangService.delete(idgiohang);
-          if(resu){
-            this.getSPGioHang();
-          }
-          
-      }
+         const resu = await giohangService.delete(idgiohang);
+         if(resu){
+          this.getSPGioHang();
+         }
       }catch(e){
         console.log(e);
         alert('Lỗi' + e.response.status);
       }
-      
 
+    },
+    async giamsoluong(giohang){
+      try{
+      
+        if(giohang.soluong==1){
+          this.deleteSPGioHang(giohang._id);
+        }
+        else if(giohang.soluong>1){
+          giohang.soluong = await giohang.soluong - 1;
+          const updae = {
+            idkhachhang: giohang.idkhachhang,
+            idhanghoa: giohang.idhanghoa,
+            soluong: giohang.soluong,
+            gia: giohang.gia
+          }
+          const resu = await giohangService.update(giohang._id, updae);
+       
+          if(resu){
+            this.getSPGioHang();
+          }
+        }
+      }catch(e){
+        console.log(e);
+        alert('Lỗi' + e.response.status);
+      }
+    },
+    async tangsoluong(giohang){
+      try{
+        if(giohang.soluong >= giohang.soluongtonkho){
+        
+          this.setMessage("Số lượng trong kho không đủ", giohang)
+        }
+        else if(giohang.soluong>1){
+          giohang.soluong = await giohang.soluong + 1;
+          const updae = {
+            idkhachhang: giohang.idkhachhang,
+            idhanghoa: giohang.idhanghoa,
+            soluong: giohang.soluong,
+            gia: giohang.gia
+          }
+          const resu = await giohangService.update(giohang._id, updae);
+          if(resu){
+            this.getSPGioHang();
+          }
+        }
+      }catch(e){
+        console.log(e);
+        alert('Lỗi' + e.response.status);
+      }
     },
     formattedGia(gia) {
             if (gia) {
@@ -211,37 +264,17 @@
             }
             return "0 VND";
         },
-        giamsoluong() {
-      if (this.listgiohang.soluongtonkho == 0) {
-        // Hết hàng
-      } else if (this.listgiohang.soluong <= 1) {
-        this.message = null;
-      } else {
-        this.message = null;
-        this.listgiohang.soluong = this.listgiohang.soluong - 1;
-      }
-    },
-    tangsoluong() {
-      if (this.listgiohang.soluongtonkho == 0) {
-        this.setMessage("Hết hàng");
-      } else if (this.listgiohang.soluong >= this.listgiohang.soluongtonkho) {
-        this.setMessage("Số lượng đã đạt tối đa");
-      } else {
-        this.listgiohang.soluong = this.listgiohang.soluong + 1;
-        this.message = null;
-      }
-    },
-    setMessage(message) {
-      this.message = message;
+    setMessage(message, giohang) {
+      giohang.message = message;
       setTimeout(() => {
-        this.message = null;
+        giohang.message = null;
       }, 2000); // 2000 milliseconds (2 seconds)
     },
     },
     async created() {
       this.getSPGioHang();
   },
-
+   
    
   };
   </script>
@@ -268,7 +301,11 @@
 #tablegiohang td, img{
   text-align: left;
 }
-
+.table_thanhtoan{
+  padding-top: 1rem;
+  background-color: white;
+  border: 1px black;
+}
 
 </style>
 

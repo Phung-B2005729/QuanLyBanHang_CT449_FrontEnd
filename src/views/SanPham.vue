@@ -71,8 +71,12 @@
                             </router-link>
                           </div>
                           <div class="col-6">
-                            <a  class="hidden_e card-link iconsp"><i class="fa-solid fa-shopping-cart"></i> Thêm vào giỏ hàng</a>
+                            <a  class="hidden_e card-link iconsp themgiohang" @click="themgiohang(sanpham)"><i class="fa-solid fa-shopping-cart"></i> Thêm vào giỏ hàng</a>
                             <div v-if="isOutOfStock(sanpham.soluong)" class="out-of-stock-label">Hết hàng</div>
+                          </div>
+                          <div class="col-12 text-message">
+                            {{sanpham.message}}
+
                           </div>
                         </div>
                   </div>
@@ -95,6 +99,7 @@
   import hanghoaService from "../services/hanghoa.service";
   import hinhanhService from "../services/hinhanh.service";
   import loaihangService from "../services/loaihang.service";
+  import giohangService from "@/services/giohang.service";
   export default {
     components: {
       AppHeader,
@@ -147,10 +152,11 @@
         try{
            this.listsanpham = await hanghoaService.getALLSanPhamTheoLoai(id);
            this.listsanpham.forEach(async (sanpham) => {
-           
+            sanpham.message = '';
         const hinhanh = await hinhanhService.getHinhAnhSanPham(sanpham._id);
         if (hinhanh.length > 0) {
           sanpham.linkanh = hinhanh[0].linkanh;
+          
          
         } else {
           sanpham.linkanh = ''; // Hoặc đặt giá trị mặc định nếu không có hình ảnh
@@ -162,7 +168,45 @@
           this.$router.push("/");
 
         }
-      }
+      },
+      async themgiohang(sanpham)  {
+        try{
+        if(this.session_user==null || (this.session_user && this.session_user.token.id == null)){
+          alert("Vui lòng đăng nhập tài khoản của bạn")
+          this.$router.push({ name: 'DangNhap' });
+        }
+        else{
+            const document = await giohangService.getByIdKhacHangVaIdSP(this.session_user.token.id, sanpham._id);
+            
+          if(document && ((document.soluong + 1) > sanpham.soluong)){
+            // sản phẩm trong giỏ hàng đã đạt tối đa
+                sanpham.message="Số lượng sản phẩm trong giỏ hàng đã đạt tối đa."
+                // không cho phép tổng sản phẩm trong giỏ hàng > tồn kho
+          }
+          else{
+            const data = {
+              idkhachhang: this.session_user.token.id,
+              idhanghoa: sanpham._id,
+              soluong: document.soluong + 1,
+              gia: sanpham.gia
+            }
+            const result = await giohangService.create(data);
+                // thêm và update số lượng sản phẩm trong giỏ hàng;
+                //alert('Thêm giỏ hàng thành công');
+              this.setMessage("Đã thêm vào giỏ hàng", sanpham);
+          }
+    }
+  }
+    catch(error){
+      console.log(error);
+    }
+  },
+  setMessage(message, sanpham) {
+      sanpham.message = message;
+      setTimeout(() => {
+        sanpham.message = null;
+      }, 2000); // 2000 milliseconds (2 seconds)
+    },
     },
     async created() {
       this.getLoaiHang();
@@ -174,7 +218,12 @@
   </script>
 <style>
 /* section dau index */
-
+.text-message{
+  color: red;
+}
+.themgiohang {
+  cursor: pointer;
+}
 section{
   margin-top: 1.5rem;
 }

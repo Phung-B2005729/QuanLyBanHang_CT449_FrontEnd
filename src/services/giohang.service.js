@@ -14,6 +14,9 @@ class GioHangService {
         return (await this.api.delete(`/${id}`)).data;
     }
 
+    async getByIdKhacHangVaIdSP(idkhachhang, idhanghoa) {
+        return (await this.api.get(`/${idkhachhang}/${idhanghoa}`)).data;
+    }
     async getALLSPGioHangKhachHang(idkhachhang) {
         return (await this.api.get(`/khachhang/${idkhachhang}`)).data;
     }

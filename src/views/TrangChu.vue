@@ -1,17 +1,44 @@
 <template>
   <div>
     <AppHeader :session_user="session_user" />
+    <main>
+      <section class="container">
+            <div class="row st1">
+              <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="d-flex align-items-center st1border " >
+                      <router-link :to="{ name: 'trangchu' }" class="navbar-brand logo">
+          <img src="@/assets/images.png" alt="Pet Shop" width="80" height="80">
+          
+        </router-link>
+      
+          <h2 class="font-weight-semi-bold ">Pet Shop Arch <br/>Xin Chào</h2>
+          
+                
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12 mt-3">
+                    <div class="d-flex align-items-center st1border" >
+                        <h2 class="fa fa-shipping-fast  "></h2>
+                        <h5 class="font-weight-semi-bold "> Miễn phí giao hàng</h5>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12 mt-3">
+                    <div class="d-flex align-items-center st1border " >
+                        <h2 class="fas fa-exchange-alt  "></h2>
+                        <h5 class="font-weight-semi-bold "> Đổi hàng trong 7 ngày</h5>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12 mt-3">
+                    <div class="d-flex align-items-center st1border" >
+                        <h2 class="fa fa-phone-volume "></h2>
+                        <h5 class="font-weight-semi-bold "> Hỗ trợ 24/7</h5>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <div class="container">
-      <input
-        type="file"
-        accept="image/png, image/jpg, image/jpeg"
-        @change="handleFileChange"
-      />
-      <img v-if="imageUrl" :src="imageUrl" alt="Uploaded Image" />
-    </div>
-
-    <button class="btn" @click="uploadImage">Upload</button>
+    </main>
+   
 
     <AppFooter :session_user="session_user" />
   </div>
@@ -29,59 +56,12 @@ export default {
   },
   data() {
     return {
-      imageUrl: null,
-      fileupload: null,
-      error: null,
-      hinhanh: null
+     
     };
   },
   props: ["session_user"],
   methods: {
-    async uploadImage() {
-      if (!this.fileupload) {
-        console.error("No file selected.");
-        return;
-      }
 
-      const formData = new FormData();
-      formData.append("file", this.fileupload);
-
-      try {
-        const response = await hinhanhService.upload(formData);
-        this.imageUrl = response.url;
-        this.hinhanh = {
-          linkanh: this.imageUrl,
-          tenanh: this.fileupload.name,
-          idhanghoa: ""
-        }
-       
-        const ketqua = await hinhanhService.create(this.hinhanh);
-       
-        alert("Thêm ảnh thành công");
-        
-      } catch (error) {
-        console.error("Image upload failed:", error);
-        alert("Image upload failed:");
-      }
-    },
-    handleFileChange(event) {
-      this.fileupload = event.target.files[0];
-      this.getImagePreviews(this.fileupload);
-    },
-    getImagePreviews(image) {
-      if(/\.(jpe?g|png)$/i.test(image.name) && image.size < 1000000000){
-        let reader = new FileReader();
-      reader.onloadend = (e) => {
-        this.imageUrl = e.target.result;
-      };
-      reader.readAsDataURL(image);
-      }
-      else{
-          this.error = "File is not support for size bigger than 1MB"
-          alert(this.error)
-      }
-    
-    },
   },
 };
 </script>

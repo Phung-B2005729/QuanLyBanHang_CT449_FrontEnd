@@ -201,26 +201,21 @@
 
         }
       },
-      async submitthemgiohang (data, spupdate) {
+      async submitthemgiohang (data) {
         //alert(soluong);
+      try{ 
         if(this.user_login.token.id==null){
           alert("Vui lòng đăng nhập tài khoản của bạn")
           this.$router.push({ name: 'DangNhap' });
         }
         else{
-         try{ 
-         
           const result = await giohangService.create(data);
-          const re = await hanghoaService.update(spupdate._id,spupdate);
+          // thêm và update số lượng sản phẩm trong giỏ hàng;
           //alert('Thêm giỏ hàng thành công');
-         this.setMessage("Đã thêm vào giỏ hàng");
-        }catch(error){
-          alert("Lỗi dữ liệu" + error.response.status);
-          console.log(error);
         }
-          // gọi update sản phẩm
-         // await this.getSanPham();
-         // this.listsanpham = await this.getSanPhamTuongTu; 
+        }catch(error){
+       
+          console.log(error);
         }
        
       }

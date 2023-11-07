@@ -127,7 +127,7 @@
         >
         Trang Cá Nhân
         </router-link>
-               <a class="dropdown-item" @click="setSession_user">Đăng xuất</a>
+               <a class="dropdown-item dangxuat" @click="setSession_user">Đăng xuất</a>
             </div>
       </li>
         </ul>
@@ -156,6 +156,9 @@
     font-size: large;
     background-color: #539590;
   }
+.dangxuat {
+  cursor: pointer;
+}
 </style>
 
 <script>

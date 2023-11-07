@@ -13,7 +13,7 @@
                                                             readonly
                                                             class="sl text-center form-coltrol"
                                                             min="0"
-                                                            :max="sanphamgiohang.soluong"
+                                                            :max="thongtinsanpham.soluong"
                                                             v-model="data.soluong"
                                                            >
                                     </div>
@@ -33,9 +33,10 @@
                         </form>
 </template>
 <script>
+import giohangService from "@/services/giohang.service";
 export default {
 
-    emits: ["submit:themgiohang"],
+  emits: ["submit:themgiohang"],
   props: {
     sanpham: {default: null }, // Dữ liệu user đăng nhập
     soluong: {default: 1},
@@ -43,7 +44,7 @@ export default {
   },
     data() {
       return {
-        sanphamgiohang: this.sanpham,
+        thongtinsanpham: this.sanpham,
         message: null,
         idkhachhang: this.idkhachhang,
         data: { idkhachhang: this.idkhachhang, idhanghoa: this.sanpham._id, gia: this.sanpham.gia, soluong: this.sanpham.soluong==0 ? 0 : this.soluong },
@@ -59,16 +60,23 @@ export default {
       }, 2000); // 2000 milliseconds (2 seconds)
     },
    async submitthemgiohang()  {
-    if(this.sanphamgiohang.soluong==0){
-            this.message="Hàng đã hết"
+    try{
+    
+      const document = await giohangService.getByIdKhacHangVaIdSP(this.idkhachhang, this.thongtinsanpham._id);
+     
+    if(document && ((document.soluong + this.data.soluong) > this.thongtinsanpham.soluong)){
+      // sản phẩm trong giỏ hàng đã đạt tối đa
+          this.message="Số lượng sản phẩm trong giỏ hàng đã đạt tối đa."
+          // không cho phép tổng sản phẩm trong giỏ hàng > tồn kho
     }
     else{
-      this.sanphamgiohang.soluong = await this.sanphamgiohang.soluong - this.data.soluong; 
-      await   this.$emit("submit:themgiohang", this.data, this.sanphamgiohang);  // sự kiện submit
+      await this.$emit("submit:themgiohang", this.data);  // sự kiện submit
       this.setMessage('Đã thêm vào giỏ hàng');
     }
-    
-            },
+    }catch(error){
+      console.log(error);
+    }
+  },
    giamsoluong(){
     if(this.sanpham.soluong==0){
      
@@ -81,10 +89,10 @@ export default {
       }
    },
    tangsoluong(){
-    if( this.sanphamgiohang.soluong==0){
+    if( this.thongtinsanpham.soluong==0){
         this.message="Hàng đã hết"
       }
-      else if (this.data.soluong >= this.sanphamgiohang.soluong) {
+      else if (this.data.soluong >= this.thongtinsanpham.soluong) {
         this.message = "Số lượng đã đạt tối đa";
       } else {
         this.data.soluong= this.data.soluong +1;
