@@ -2,18 +2,16 @@
     <div>
       <AppHeader :session_user="session_user" />
      <main>
-        <!-- st icon -->
-      
         <section class="container">
             <div class="row st1">
               <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="d-flex align-items-center st1border " >
-                      <router-link :to="{ name: 'trangchu' }" class="navbar-brand logo">
-          <img src="@/assets/images.png" alt="Pet Shop" width="80" height="80">
-          
-        </router-link>
-      
-          <h2 class="font-weight-semi-bold ">Pet Shop Arch</h2>
+                                  <router-link :to="{ name: 'trangchu' }" class="navbar-brand logo">
+                      <img src="@/assets/images.png" alt="Pet Shop" width="80" height="80">
+                      
+                    </router-link>
+                  
+                      <h2 class="font-weight-semi-bold ">Pet Shop Arch</h2>
                 
                     </div>
                 </div>

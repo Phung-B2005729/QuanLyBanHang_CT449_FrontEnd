@@ -106,59 +106,6 @@ header {
     font-weight: bolder;
 }
 
-/* section2 */
-.section2 h1{
-    text-align: center;
-    font-family: Verdana, Arial, sans-serif;
-    font-size: 2.5rem;
-    color: black;
-    font-weight: 600;
-}
-
-.section2 .context{
-    margin-top: 5px;
-}
-
-.section2 .movie {
-    margin-left:0;
-    margin-right: 0;
-    padding: 3px;
-    margin-bottom: 7px;
-}
-.section2 .movie .card {
-    max-width: 100%;
-    height: 19rem;
-    overflow: hidden; 
-}
-.section2 .movie .card-body{
-    background-color:	#Ec6A52;
-}
-
-
-.section2 .movie .card img{
-    max-width: 100%;
-    height: 15rem; 
-    transition-duration: 0.3s; 
-    margin: 0;
-}
-.section2 .movie .anh{
-    padding: 0;
-}
-.section2 .movie .card img:hover{
-    transform: scale(1.2);
-} 
-.section2 .movie .name{
-    background-color: #F8B042;/* rgb(224, 64, 6); /* #b83a18; */
-    color: #0c0c0c;
-    font-size: 1rem;
-    font-weight: 600;
-}
-
-.section2 .movie .name:hover{
-    color: black;/* #6A250B ; */
-    font-weight: 500;
-    background-color: #c07b14 /* #;807777; */
-}
 /* đăng nhập*/
 .bieumau{
     background-color: #FFF;
@@ -294,69 +241,54 @@ header {
   color: #9d0d1c;
   font-size: 1.2rem;
 }
-.slide_uudai{
-    margin-top: 2rem;
 
-}
-
-.slide_uudai .uudai{
-  height: 28rem;
- border-radius: 1rem;
-  overflow: hidden;
-  color: #0c0c0c;
-}
-#giohang .icon-xoa{
-    font-size: 1.5rem;
-    color: #e10f24;
-}
-
-.anhsach{
+/*banner trang chu*/
+#banner{
+    max-width: 100%;
+    margin-right: 2rem;
+    
+   }
+   #anhbanner {
+    max-width: 100%;
+    height: 22rem;
+    overflow: hidden;
     position: relative;
-    margin: 0;
-}
-img.anhsach{
-width:100%;
-}
-.anhsach + .noi_dung_het {
-position: absolute;
-bottom: 0;
-right: -0;
-background: rgb(7, 7, 7);
-background: rgba(0, 0, 0, 0.5);
-color: #f1f1f1; 
-width: 100%; 
-box-sizing:border-box;
-padding-top: 8rem;
-padding-right: 0;
-margin-bottom: 8rem;
-margin-right: 0;
-}
-.noi_dung_het h2{
-    text-align: center;
-    padding-bottom: 6rem;
-    font-weight: bolder;
-    color: #aca9a9;
-}
-.tungloaisach{
-    margin: 2px;
-    margin-bottom: 1rem;
-
-}
-#thanhtoan{
-    background-color: #678ba7;
-}
-#thanhtoan .tuade{
-    color: #1d313f;
-    font-weight: bolder;
-}
-#thanhtoan #form-thanhtoan{
-    background-color:  #a7c1d4;
-    padding-bottom: 5px;
-}
-#thanhtoan .phuongthuc{
-    margin-left: 2rem;
-}
-#thanhtoan .sanpham{
-    font-weight: 600;
-    color: #021e32;
-}
+   }
+   #anhbanner img {
+     max-width: 100%;
+     height: 22rem;
+     object-fit: cover;
+     box-shadow: 0px 0px 2px 2px rgba(74, 67, 67, 0.3);
+     filter: brightness(65%);
+    }
+    .text {
+     position: absolute;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     align-items: center;
+     text-align: center;
+     z-index: 1;
+     color: #fff;
+   }
+   
+   .text h2 {
+     font-size: 40px;
+     font-weight: bold;
+     margin-bottom: 10px;
+   }
+   
+   .text p {
+     font-size: 25px;
+   }
+   #danhmuc{
+    margin-top: 1.5rem;
+    padding: 0;
+    width: 15rem;
+    margin-bottom: 0;
+    margin-left: 5rem;
+  }
