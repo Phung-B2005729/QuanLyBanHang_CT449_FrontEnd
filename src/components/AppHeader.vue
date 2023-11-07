@@ -1,0 +1,200 @@
+
+
+<template>
+<header>
+<nav id="menu" class="navbar navbar-expand-lg">
+<div class="container-fluid">
+  <router-link :to="{ name: 'trangchu' }" class="navbar-brand logo">
+          <img src="@/assets/images.png" alt="ARCH CINEMA" width="80" height="80">
+        </router-link>
+    <button class="navbar-toggler icon-tab" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      <li class="nav-item">
+        <router-link :to="{ name: 'trangchu' }" class="nav-link">Trang Chủ
+        </router-link>
+        </li>
+        <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="dropdownMenuButton2" aria-expanded="false">
+          Sản phẩm cho chó
+        </a>
+        <div class="dropdown-menu row mt-4 danhsach"  aria-labelledby="dropdownMenuButton2">
+          <div class="col" v-for="loai in filteredLoaiCho" :key="loai._id">
+            <router-link 
+            :to="{
+                name: 'sanpham',
+                params: {id: loai._id }, // truyền tham số id với giá trị id của contact đang được chọn vao trang edit-delete
+            }"
+             class="dropdown-item"
+        >
+            <span class="dropdown-item">
+               {{loai.tenloai}}
+            </span>
+        </router-link>
+          
+          </div>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="dropdownMenuButton3" aria-expanded="false">
+          Sản phẩm cho mèo
+        </a>
+        <div class="dropdown-menu row mt-4 danhsach"  aria-labelledby="dropdownMenuButton2">
+          <div class="col" v-for="loai in filteredLoaiMeo" :key="loai._id">
+            <router-link 
+            :to="{
+                name: 'sanpham',
+                params: {id: loai._id }, // truyền tham số id với giá trị id của contact đang được chọn vao trang edit-delete
+            }"
+            class="dropdown-item"
+        >
+            <span >
+               {{loai.tenloai}}
+            </span>
+        </router-link>
+          
+          </div>
+        </div>
+      </li>
+        <li class="nav-item" v-if="session_user==null">
+          <router-link 
+            :to="{
+                name: 'DangNhap',
+            }"
+           class="nav-link"
+        >
+        Đăng Nhập
+        </router-link>
+         
+        </li>
+        <li class="nav-item" v-if="session_user==null">
+          <router-link 
+            :to="{
+                name: 'DangKy',
+            }"
+           class="nav-link"
+        >
+        Đăng Ký
+        </router-link>
+        </li>
+        <li class="nav-item" v-if="session_user!=null">
+          <router-link 
+            :to="{
+                name: 'DonHang',
+            }"
+           class="nav-link"
+        >
+        Đơn Hàng
+        </router-link>
+        </li>
+      </ul>
+    </div>
+    <!---Tìm kiếm Form-->
+    <InputSearch></InputSearch>
+    <router-link 
+            :to="{
+                name: 'GioHang',
+            }"
+           class="nav-link"
+        ><i class="fa fa-cart-shopping icon-cart"></i>
+        </router-link>
+      <ul class="navbar-nav" id="nguoidung" v-if="session_user!=null">
+        <li class="nav-item dropdown danhsachnguoidung">
+        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="dropdownMenuButton1" aria-expanded="false">
+          {{session_user.token.hoten}}
+        </a>
+            <div class="dropdown-menu container danhsach"  aria-labelledby="dropdownMenuButton1">
+
+              <router-link 
+            :to="{
+                name: 'CaNhan',
+            }"
+           class="dropdown-item"
+        >
+        Trang Cá Nhân
+        </router-link>
+               <a class="dropdown-item" @click="setSession_user">Đăng xuất</a>
+            </div>
+      </li>
+        </ul>
+        <div>
+   
+  
+  </div>
+
+</div>
+
+</nav>
+</header>
+</template>
+<style scoped>
+       @import "@/assets/stype.css"; 
+.danhsach {
+  background-color: #539590;
+  max-width: max-content;
+  font-weight: 600;
+}
+
+.danhsach :hover{
+    margin-right: 4;
+    color: black;
+    font-weight: bolder;
+    font-size: large;
+    background-color: #539590;
+  }
+</style>
+
+<script>
+import InputSearch from './InputSearch.vue';
+import loaihangService from "../services/loaihang.service";
+export default {
+  components: {
+    InputSearch
+  },
+  props: {
+    session_user: { type : Object, default : null
+    },
+     // dữ liệu kiểm tra đăng nhập
+  },
+  data() {
+    return {
+      loaihang: []
+    };
+  },
+  computed: {
+    loaihangStrings() {
+                return this.loaihang.map((loai) => {
+                     const {tenloai } = loai;
+                    return [tenloai].join("");
+                });
+            },
+    filteredLoaiCho() {
+      return this.loaihang.filter((_loai,index) => this.loaihangStrings[index].includes('chó'));
+    },
+    filteredLoaiMeo() {
+      return this.loaihang.filter((_loai,index) => this.loaihangStrings[index].includes('mèo'));
+    },
+    
+  },
+  
+  methods: {
+  setSession_user(){
+    this.$store.commit('setSessionUser', null);
+    this.$router.push({ path: "/" });
+  },
+  async getALLLoaiHang() {
+                try {
+                    // lấy danh sách các loại hàng
+                  this.loaihang = await loaihangService.getAll();
+                } catch (error) {
+                    console.log(error);
+                }
+            },
+},
+mounted(){
+this.getALLLoaiHang(); // gọi khi trang vừa được load
+}
+}
+</script>

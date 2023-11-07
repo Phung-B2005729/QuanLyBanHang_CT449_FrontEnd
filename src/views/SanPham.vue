@@ -1,0 +1,236 @@
+<template>
+    <div>
+      <AppHeader :session_user="session_user" />
+     <main>
+        <!-- st icon -->
+      
+        <section class="container">
+            <div class="row st1">
+              <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="d-flex align-items-center st1border " >
+                      <router-link :to="{ name: 'trangchu' }" class="navbar-brand logo">
+          <img src="@/assets/images.png" alt="ARCH CINEMA" width="80" height="80">
+          
+        </router-link>
+      
+          <h2 class="font-weight-semi-bold ">Pet Shop Arch</h2>
+                
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12 mt-3">
+                    <div class="d-flex align-items-center st1border" >
+                        <h2 class="fa fa-shipping-fast  "></h2>
+                        <h5 class="font-weight-semi-bold "> Miễn phí giao hàng</h5>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12 mt-3">
+                    <div class="d-flex align-items-center st1border " >
+                        <h2 class="fas fa-exchange-alt  "></h2>
+                        <h5 class="font-weight-semi-bold "> Đổi hàng trong 7 ngày</h5>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12 mt-3">
+                    <div class="d-flex align-items-center st1border" >
+                        <h2 class="fa fa-phone-volume "></h2>
+                        <h5 class="font-weight-semi-bold "> Hỗ trợ 24/7</h5>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- phan cach -->
+        <div class="container" id="phancach">
+            <div id="pchr">
+                <hr style="width: 5rem;flex-grow: 1; font-weight: bold; height: 3px;">
+            </div>
+            <p class="tenloai">{{loaihang.tenloai}}</p>
+            <div id="pchr">
+                <hr style="width: 5rem;flex-grow: 1; font-weight: bold; height: 3px;">
+            </div>
+        </div>
+        <!-- san pham -->
+        <section class="container">
+            <div class="row mb-5 st1" >
+                <!--     load du lieu san pham      -->
+                    <div class="col-lg-3 col-md-6 mt-3 mb-5" v-for="(sanpham, index) in listsanpham" :key="sanpham._id">
+                    <div class="card" style="width: 16rem; ">
+                        <img v-if="sanpham.linkanh" :src="sanpham.linkanh" class="card-img-top " alt="SanPham" id="anhsp">
+                        <div class="card-body">
+                            <h5 class="overflow-hidden">{{sanpham.tenhh}}</h5>
+                            <p class="card-text d-flex justify-content-center">{{ formattedGia(sanpham.gia) }}</p>
+                            <hr class="hidden_e">
+                            <!--   <a href="detail_product.php" class=" hidden_e card-link "><i class="fa-solid fa-cart-shopping" id="iconsp"></i> Thêm vào giỏ</a> -->
+                            <div class="row">
+                              <div class="col-6">
+                                <router-link 
+                                    :to="{
+                                        name: 'sanphamchitiet',
+                                        params: {id: sanpham._id }, // truyền tham số id với giá trị id của contact đang được chọn vao trang edit-delete
+                                    }"
+                                    class="hidden_e card-link iconsp "
+                                >
+                                <i class="fa-solid fa-eye" ></i> Xem sản phẩm
+                             </router-link>
+                                
+                              </div>
+                              <div class="col-6">
+                                <a href="" class="hidden_e card-link iconsp "><i class="fa-solid fa-shopping-cart"></i> Thêm vào giỏ hàng</a>
+                    </div>
+                          
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- end -->
+            </div>
+        </section>
+    </main>
+      <AppFooter :session_user="session_user" />
+    </div>
+  </template>
+  
+  <script>
+  import AppHeader from "@/components/AppHeader.vue";
+  import AppFooter from "@/components/AppFooter.vue";
+  import hanghoaService from "../services/hanghoa.service";
+  import hinhanhService from "../services/hinhanh.service";
+  import loaihangService from "../services/loaihang.service";
+  export default {
+    components: {
+      AppHeader,
+      AppFooter,
+    },
+    watch: {
+      $route: ["getSanPham", "getLoaiHang"], // Theo dõi thay đổi đường dẫn và gọi getSanPham khi thay đổi
+  },
+   
+    data() {
+      return {
+        listsanpham: [],
+        loaihang: null
+      };
+    },
+    props: ["session_user"],
+    methods: {
+      formattedGia(gia) {
+            if (gia) {
+                return new Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                }).format(gia);
+            }
+            return "0 VND";
+        },
+      async getLoaiHang () {
+        const id = this.$route.params.id;
+        try{
+          this.loaihang = await loaihangService.getById(id);
+          console.log('get loai hang');
+        }catch(e){
+          console.log(e);
+          alert("loi thu lai");
+          this.$router.push("/");
+
+        }
+      },
+      async getSanPham(){
+        const id = this.$route.params.id;
+        console.log(id);
+        try{
+           this.listsanpham = await hanghoaService.getALLSanPhamTheoLoai(id);
+           this.listsanpham.forEach(async (sanpham) => {
+           
+        const hinhanh = await hinhanhService.getHinhAnhSanPham(sanpham._id);
+        if (hinhanh.length > 0) {
+          sanpham.linkanh = hinhanh[0].linkanh;
+         
+        } else {
+          sanpham.linkanh = ''; // Hoặc đặt giá trị mặc định nếu không có hình ảnh
+        }
+      });
+        }catch(e){
+          console.log(e);
+          alert("loi thu lai");
+          this.$router.push("/");
+
+        }
+      }
+    },
+    async created() {
+    this.getSanPham();
+    this.getLoaiHang();
+  },
+}
+  
+  </script>
+<style>
+/* section dau index */
+
+section{
+  margin-top: 1.5rem;
+}
+.st1 h2{
+  color:  #24696a;
+  margin: 0.5rem;
+}
+.st1 h5{
+  color: black;
+  /* margin-top: 0.7rem; */
+  font-size: 1rem;
+}
+.st1 .st1border{
+   padding: 1rem;
+   
+}
+#phancach {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+#phancach .tenloai{
+ padding: 0 1rem;
+ color: black;
+ font-weight: 5rem;
+ font-weight: bolder;
+ font-size: 2rem;
+  
+}
+/* card san pham */
+.card #anhsp {
+  display: block;
+  max-width: 100%;
+  height: 17rem;
+  object-fit: cover;
+  transition: all .3s ;
+}
+
+
+.card{
+  position: relative;
+  overflow: hidden;
+
+}
+.card-text{
+  font-weight: bold;
+}
+.hidden_e{
+  /* visibility: hidden; 
+  opacity: 0; 
+  transition: opacity 0.4s ease;  */
+  display: none;
+  text-decoration: none;
+  color: #24696a;
+}
+.card:hover .hidden_e{
+  /* visibility: visible;
+  opacity: 1; */
+    display: block;
+}
+.iconsp{
+  color: #24696a;
+}
+</style>
