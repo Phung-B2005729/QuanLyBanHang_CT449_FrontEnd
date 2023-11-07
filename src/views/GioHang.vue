@@ -87,7 +87,7 @@
                                 </td>
                                 <td class="pt-3">
                                     <div>
-                                        <i class=" fa-solid fa-trash icon-xoa"></i>
+                                        <i class=" fa-solid fa-trash icon-xoa" @click="deleteSanPhamGioHang(giohang._id)"></i>
 
                                     </div>
                                 </td>
@@ -126,7 +126,7 @@
         </div>
 
         <!-- =====================================end MUA HANG ============================================== -->
-    </main>
+    </main> 
   
       <AppFooter :session_user="session_user" />
     </div>
@@ -211,29 +211,27 @@
             }
             return "0 VND";
         },
-  giamsoluong(){
-    if(this.listgiohang.soluongtonkho==0){
-       // hết hàng
-    }
-   else if (this.listgiohang.soluong <= 1) {
-        this.message=null;
+        giamsoluong() {
+      if (this.listgiohang.soluongtonkho == 0) {
+        // Hết hàng
+      } else if (this.listgiohang.soluong <= 1) {
+        this.message = null;
       } else {
         this.message = null;
-        this.listgiohang.soluong= this.listgiohang.soluong - 1;
+        this.listgiohang.soluong = this.listgiohang.soluong - 1;
       }
-   },
-   tangsoluong(){
-    if( this.listgiohang.soluongtonkho==0){
-      setMessage("Hết hàng")
-      }
-      else if (this.listgiohang.soluong >= this.listgiohang.soluongtonkho) {
-        setMessage("Số lượng đã đạt tối đa")
+    },
+    tangsoluong() {
+      if (this.listgiohang.soluongtonkho == 0) {
+        this.setMessage("Hết hàng");
+      } else if (this.listgiohang.soluong >= this.listgiohang.soluongtonkho) {
+        this.setMessage("Số lượng đã đạt tối đa");
       } else {
-        this.listgiohang.soluong= this.listgiohang.soluong +1;
+        this.listgiohang.soluong = this.listgiohang.soluong + 1;
         this.message = null;
       }
-   },
-   setMessage(message) {
+    },
+    setMessage(message) {
       this.message = message;
       setTimeout(() => {
         this.message = null;
