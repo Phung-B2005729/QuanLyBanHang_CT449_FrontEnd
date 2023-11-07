@@ -9,7 +9,7 @@
               <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="d-flex align-items-center st1border " >
                       <router-link :to="{ name: 'trangchu' }" class="navbar-brand logo">
-          <img src="@/assets/images.png" alt="ARCH CINEMA" width="80" height="80">
+          <img src="@/assets/images.png" alt="Pet Shop" width="80" height="80">
           
         </router-link>
       
@@ -42,7 +42,7 @@
             <div id="pchr">
                 <hr style="width: 5rem;flex-grow: 1; font-weight: bold; height: 3px;">
             </div>
-            <p class="tenloai">{{loaihang.tenloai}}</p>
+            <p class="tenloai" v-if="loaihang">{{loaihang.tenloai}}</p>
             <div id="pchr">
                 <hr style="width: 5rem;flex-grow: 1; font-weight: bold; height: 3px;">
             </div>
@@ -52,34 +52,32 @@
             <div class="row mb-5 st1" >
                 <!--     load du lieu san pham      -->
                     <div class="col-lg-3 col-md-6 mt-3 mb-5" v-for="(sanpham, index) in listsanpham" :key="sanpham._id">
-                    <div class="card" style="width: 16rem; ">
-                        <img v-if="sanpham.linkanh" :src="sanpham.linkanh" class="card-img-top " alt="SanPham" id="anhsp">
-                        <div class="card-body">
-                            <h5 class="overflow-hidden">{{sanpham.tenhh}}</h5>
-                            <p class="card-text d-flex justify-content-center">{{ formattedGia(sanpham.gia) }}</p>
-                            <hr class="hidden_e">
-                            <!--   <a href="detail_product.php" class=" hidden_e card-link "><i class="fa-solid fa-cart-shopping" id="iconsp"></i> Thêm vào giỏ</a> -->
-                            <div class="row">
-                              <div class="col-6">
-                                <router-link 
-                                    :to="{
-                                        name: 'sanphamchitiet',
-                                        params: {id: sanpham._id }, // truyền tham số id với giá trị id của contact đang được chọn vao trang edit-delete
-                                    }"
-                                    class="hidden_e card-link iconsp "
-                                >
-                                <i class="fa-solid fa-eye" ></i> Xem sản phẩm
-                             </router-link>
-                                
-                              </div>
-                              <div class="col-6">
-                                <a href="" class="hidden_e card-link iconsp "><i class="fa-solid fa-shopping-cart"></i> Thêm vào giỏ hàng</a>
-                    </div>
-                          
-                            </div>
-                           
+                      <div class="card" style="width: 16rem; ">
+                      <img v-if="sanpham.linkanh" :src="sanpham.linkanh" class="card-img-top" alt="SanPham" id="anhsp">
+                      <div class="card-body">
+                        <h5 class="overflow-hidden">{{sanpham.tenhh}}</h5>
+                        <p class="card-text d-flex justify-content-center">{{ formattedGia(sanpham.gia) }}</p>
+                        <hr class="hidden_e">
+                        <div class="row">
+                          <div class="col-6">
+                            <router-link
+                              :to="{
+                                name: 'sanphamchitiet',
+                                params: {id: sanpham._id },
+                              }"
+                              class="hidden_e card-link iconsp"
+                            >
+                              <i class="fa-solid fa-eye"></i> Xem sản phẩm
+                            </router-link>
+                          </div>
+                          <div class="col-6">
+                            <a  class="hidden_e card-link iconsp"><i class="fa-solid fa-shopping-cart"></i> Thêm vào giỏ hàng</a>
+                            <div v-if="isOutOfStock(sanpham.soluong)" class="out-of-stock-label">Hết hàng</div>
+                          </div>
                         </div>
-                    </div>
+                  </div>
+              </div>
+
                 </div>
 
 
@@ -112,8 +110,16 @@
         loaihang: null
       };
     },
+    computed: {
+     
+  },
     props: ["session_user"],
-    methods: {
+    methods: { 
+      isOutOfStock(soluong) {
+  
+      return soluong == 0;
+   // Default to false if this.sanpham is null
+  },
       formattedGia(gia) {
             if (gia) {
                 return new Intl.NumberFormat("vi-VN", {
@@ -159,8 +165,9 @@
       }
     },
     async created() {
+      this.getLoaiHang();
     this.getSanPham();
-    this.getLoaiHang();
+    
   },
 }
   
@@ -218,19 +225,30 @@ section{
   font-weight: bold;
 }
 .hidden_e{
-  /* visibility: hidden; 
-  opacity: 0; 
-  transition: opacity 0.4s ease;  */
+  
   display: none;
   text-decoration: none;
   color: #24696a;
 }
 .card:hover .hidden_e{
-  /* visibility: visible;
-  opacity: 1; */
+ 
     display: block;
 }
 .iconsp{
   color: #24696a;
+}
+
+.out-of-stock-label {
+  background-color: rgba(0, 0, 0, 0.467); /* Add a semi-transparent black background */
+  color: white; /* Text color for "Hết hàng" */
+  position: absolute; 
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.8rem;
 }
 </style>

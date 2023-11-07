@@ -32,7 +32,9 @@
                         </h1>
                         <div class="row">
                             <div class="col-6">
-                                <p> <b>Số lượng còn:</b> {{this.sanphams.soluong}}</p>
+                            
+                                <p v-if="this.sanphams.soluong==0" class="text-hethang"> <b>Số lượng còn:</b> {{this.sanphams.soluong}} Hết hàng</p>
+                                <p v-else> <b>Số lượng còn:</b> {{this.sanphams.soluong}}</p>
                                 <p> <b>Thương hiệu:</b> {{this.sanphams.thuonghieu}} </p>
                             </div>
                             
@@ -51,6 +53,7 @@
                         :sanpham="sanphams"
                         :soluong="1"
                         :idkhachhang="user_login.token.id"
+                       
                         />
                         <!-- ======================================================================================== -->
                     </div>
@@ -136,7 +139,6 @@
       return {
         sanphams: null,
         listsanpham: [],
-        message: null,
         user_login: this.session_user || {
           token: {
             id: null,
@@ -210,8 +212,8 @@
          
           const result = await giohangService.create(data);
           const re = await hanghoaService.update(spupdate._id,spupdate);
-          alert('Thêm giỏ hàng thành công');
-          
+          //alert('Thêm giỏ hàng thành công');
+         this.setMessage("Đã thêm vào giỏ hàng");
         }catch(error){
           alert("Lỗi dữ liệu" + error.response.status);
           console.log(error);
@@ -222,6 +224,8 @@
         }
        
       }
+      , 
+     
      
     },
     async created() {
@@ -302,5 +306,11 @@
   }
   .log h2{
     font-weight: 900px;
+  }
+  .text-hethang{
+    color: red;
+  }
+  .text-hethang b{
+    color: #000;
   }
   </style>

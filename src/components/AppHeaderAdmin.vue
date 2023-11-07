@@ -5,7 +5,7 @@
     <nav id="menu" class="navbar navbar-expand-lg">
     <div class="container-fluid">
         <a class="navbar-brand logo" href="/">
-          <img src="src/assets/images.png" alt="ARCH CINEMA" width="80" height="80">
+          <img src="src/assets/images.png" alt="Pet Shop" width="80" height="80">
         </a>
         <button class="navbar-toggler icon-tab" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
