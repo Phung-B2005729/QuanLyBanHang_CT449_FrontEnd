@@ -181,11 +181,12 @@
                 sanpham.message="Số lượng sản phẩm trong giỏ hàng đã đạt tối đa."
                 // không cho phép tổng sản phẩm trong giỏ hàng > tồn kho
           }
+          
           else{
             const data = {
               idkhachhang: this.session_user.token.id,
               idhanghoa: sanpham._id,
-              soluong: document.soluong + 1,
+              soluong: 1,
               gia: sanpham.gia
             }
             const result = await giohangService.create(data);

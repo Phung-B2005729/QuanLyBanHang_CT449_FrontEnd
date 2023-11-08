@@ -238,7 +238,7 @@ export default {
             const data = {
               idkhachhang: this.session_user.token.id,
               idhanghoa: sanpham._id,
-              soluong: document.soluong + 1,
+              soluong: 1,
               gia: sanpham.gia
             }
             const result = await giohangService.create(data);

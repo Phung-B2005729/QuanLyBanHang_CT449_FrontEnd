@@ -38,7 +38,7 @@
             <div clas="pchr" >
                 <hr style="width: 5rem;flex-grow: 1; height: 3px; margin-right: 1rem;">
             </div>
-            <h2 class=" mb-2 text-giohang">Giỏ Hàng</h2>
+             <h3 class=" mb-2 text-giohang"><i class="fa-solid fa-cart-shopping cart"></i>  Giỏ Hàng</h3>
             <div clas="pchr">
                 <hr style="width: 5rem;flex-grow: 1; height: 3px;margin-left: 1rem;">
             </div>
@@ -121,10 +121,16 @@
                               
                                     <div class="col-12 mt-3 ">
                                       <!--Truyển trang thanh toán-->
-                                        <button type="submit" 
+                                       <routerLink
+                                       :to="{ name: 'thanhtoan', query: { id: session_user.token.id }}"
+                                       class="thanhtoan-router"
+                                       >  <button type="submit" 
                                             class="text-center mt-2 text-light form-control bg-danger">
                                            THANH TOÁN
                                         </button>
+                                      </routerLink>
+
+                                      
                                     </div>
                                    
                                 
@@ -149,11 +155,13 @@
   import hanghoaService from "@/services/hanghoa.service";
   import hinhanhService from "@/services/hinhanh.service";
   import giohangService from "@/services/giohang.service";
+import { RouterLink } from "vue-router";
   export default {
     components: {
-      AppHeader,
-      AppFooter,
-    },
+    AppHeader,
+    AppFooter,
+    RouterLink
+},
     props: ["session_user"],
     data(){
       return {
@@ -290,7 +298,7 @@
 }
 .text-giohang{
   font-size: 3rem;
- 
+ color: #659fa5;
 }
 #tablegiohang{
   margin-left: 5rem;
@@ -306,7 +314,12 @@
   background-color: white;
   border: 1px black;
 }
-
+.thanhtoan-router{
+  text-decoration: none;
+}
+.cart {
+  font-size: 2.5rem;
+}
 </style>
 
   
