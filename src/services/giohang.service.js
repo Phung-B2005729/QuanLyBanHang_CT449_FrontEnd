@@ -23,7 +23,7 @@ class GioHangService {
     async deleteALLSPGioHangKhachHang(idkhachhang){
         return (await this.api.delete(`/khachhang/${idkhachhang}`)).data;
     }
-    async getByIdSP(idkhachhang, idhanghoa) {
+    async getByIdSP(idhanghoa) {
         return (await this.api.get(`/hanghoa/${idhanghoa}`)).data;
     }
 

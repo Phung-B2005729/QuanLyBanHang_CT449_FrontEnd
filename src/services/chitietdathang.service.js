@@ -1,6 +1,6 @@
 import createApiClient from "./api.service";
 class DatHangService {
-    constructor(baseUrl="/api/dathang"){
+    constructor(baseUrl="/api/chitietdathang"){
         this.api = createApiClient(baseUrl);  // axios.create bên api.service
     }
     // các hàm tương tác với backend contact

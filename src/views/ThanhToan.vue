@@ -49,7 +49,7 @@
                           <label class="form-label">   <b>
                             Địa chỉ nhận hàng: 
                           </b>
-                         {{this.user.diachi}}
+                         {{this.dathang.diachigiao}}
                             </label>
                              
                         </div>
@@ -61,7 +61,7 @@
                         </div>
                         <div class="row">
                           <div class="col-6">
-                            <input type="text" class ="form-control col-6" v-model="this.user.diachi"  required>
+                            <input type="text" class ="form-control col-6" v-model="this.dathang.diachigiao"  required>
                           </div>
                     </div>
                     </div>
@@ -146,21 +146,21 @@
                         </div>
                         <div class="col-md-12 mt-2">
                           <b>Dự kiến giao hàng :</b>
-                            {{this.ngaygiaohang}}
+                            {{this.dathang.ngaygiao}}
                         </div>
 
                         <div class="col-md-12 mt-3">
                           <label class="form-label">   <b>
                             Địa chỉ nhận hàng: 
                           </b>
-                         {{this.user.diachi}}
+                         {{this.dathang.diachigiao}}
                             </label>
                              
                         </div>
                       
                         <div class="row">
                           <div class="col-12">
-                            <input type="text" class ="form-control col-6" v-model="this.user.diachi"  required>
+                            <input type="text" class ="form-control col-6" v-model="this.dathang.diachigiao"  required>
                           </div>
                     </div>
                     </div>
@@ -184,13 +184,13 @@
                                     <b>Phí vận chuyển: </b>
                                 </div>
                                 <div class="col-3 float-sm-end">
-                                    <p id="phiship">{{formattedGia(this.phigiaohang)}}</p>
+                                    <p id="phiship">{{formattedGia(this.dathang.phigiao)}}</p>
                                 </div>
                                 <div class="col-9 float-sm-start">
                                     <b>Phí giảm giá: </b>
                                 </div>
                                 <div class="col-3 float-sm-end">
-                                    <p>{{formattedGia(this.giamgia)}}</p>
+                                    <p>{{formattedGia(this.dathang.phigiamgia)}}</p>
                                 </div>
                             </div>
                         </div>
@@ -204,7 +204,7 @@
                             </div>
                             <div class="col-3 float-sm-end text-danger mb-3">
                                
-                                <h5><span id="tongtien">{{formattedGia(this.tongthanhtoan)}}</span></h5>
+                                <h5><span id="tongtien">{{formattedGia(this.dathang.tongtien)}}</span></h5>
 
                             </div>
                             <input type="hidden" id="tonghd" name="tonghoadon" value="<?php echo $tongtien?>">
@@ -231,6 +231,9 @@
   import hinhanhService from "@/services/hinhanh.service";
   import giohangService from "@/services/giohang.service";
   import khachhangService from "@/services/khachhang.service";
+  import dathangService from "@/services/dathang.service";
+  import chitietdathangService from "@/services/chitietdathang.service";
+  
   export default {
     components: {
       AppHeader,
@@ -240,14 +243,20 @@
     data(){
       return {
         listgiohang: [],
-        message: null,
         tongsotien: 0,
         user: null,
-        phigiaohang: 50000,
-        giamgia: 0,
-        tongthanhtoan: 0,
-        ngaydat: null,
-        ngaygiaohang: null,
+        listchitietdathang:[],
+        dathang :  {
+          ngaydat: null,
+          ngaygiao: null,
+          diachigiao: null,
+          phigiao: 50000,
+          phigiamgia: 0,
+          tongtien: 0,
+          idkhachhang: null,
+          idnhanvien: null,
+          tinhtrang: 'Chờ xác nhận',
+        }
       }
     },
     methods: {
@@ -256,6 +265,9 @@
         try{
              this.user = await khachhangService.getById(idkhachhang);
              console.log("Lấy thông tin khách hàng thành công");
+             this.dathang.idkhachhang = this.user._id;
+             this.dathang.diachigiao = this.user.diachi;
+             console.log("idkhachhang " + this.dathang.idkhachhang);
         }catch(e){
           console.log(e);
          alert('Lỗi' + e.response.status);
@@ -264,44 +276,58 @@
       async getSPGioHang(){
       const idkhachhang = this.$route.query.id;
       this.tongsotien=0;
+      var i = 0;
       try{
       if(idkhachhang!=null){
           this.listgiohang = await giohangService.getALLSPGioHangKhachHang(idkhachhang);
         if(this.listgiohang){
-          this.listgiohang.forEach(async (giohang) => {
-          giohang.message = null;
-          this.tongsotien = this.tongsotien + (giohang.soluong*giohang.gia);
+        
+        this.listgiohang.forEach(async (giohang) => {
+           this.tongsotien = this.tongsotien + (giohang.soluong*giohang.gia);
            const hinhanh = await hinhanhService.getHinhAnhSanPham(giohang.idhanghoa);
            const sanpham = await hanghoaService.getById(giohang.idhanghoa);
            if (hinhanh.length > 0 && sanpham) {
              giohang.linkanh = hinhanh[0].linkanh;
              giohang.tenhh = sanpham.tenhh;
-             alert
              giohang.soluongtonkho = sanpham.soluong;
             
            } else {
              giohang.linkanh = ''; // Hoặc đặt giá trị mặc định nếu không có hình ảnh
              giohang.tenhh = '';
-             giohang.soluongtonkho='';
+             giohang.soluongtonkho ='';
            }
-        })
+           console.log(i);
+           this.listchitietdathang[i] = {
+              iddathang : null,
+              idhanghoa: giohang.idhanghoa,
+              soluong: giohang.soluong,
+              gia: giohang.gia,
+              soluongtonkho: giohang.soluongtonkho
+           }
+           console.log(this.listchitietdathang[i].soluongtonkho);
+           i=i+1;
+           
+        });
       }
-      if(this.tongsotien > 100000){
-        this.giamgia=10000;
+      if(this.tongsotien==0) {
+        this.dathang.phigiamgia=0;
+      }
+    else if(this.tongsotien <= 200000){
+        this.dathang.phigiamgia=10000;
+      }
+     else if(this.tongsotien <= 300000){
+        this.dathang.phigiamgia=25000;
 
       }
-     else if(this.tongsotien > 200000){
-        this.giamgia=30000;
-
+      else if(this.tongsotien <= 400000){
+        this.dathang.phigiamgia=50000;
       }
-      else if(this.tongsotien > 300000){
-        this.giamgia=50000;
+      else if(this.tongsotien <= 50000){
+        this.dathang.phigiamgia=100000;
       }
-      else if(this.tongsotien > 40000){
-        this.giamgia=100000;
+       this.dathang.tongtien = this.tongsotien + this.dathang.phigiao - this.dathang.phigiamgia;
       }
-       this.tongthanhtoan = this.tongsotien + this.phigiaohang - this.giamgia;
-      }
+      console.log("idkhachhang " + this.dathang.tongtien);
       }catch(e){
         console.log(e);
         alert('Lỗi' + e.response.status);
@@ -317,9 +343,54 @@
             return "0 VND";
         },
         async  submitthanhtoan(){
-            alert('Thanh toán');
+          
             // thêm đặt hàng;
-        }
+            try{
+            const idkhachhang = this.$route.query.id;
+            const document = await dathangService.create(this.dathang); // thêm bảng đặt hàng
+          
+            if(document){
+           this.listchitietdathang.forEach(async (chitietdathang)=> {
+            chitietdathang.iddathang = await document.insertedId;
+            const resu = await chitietdathangService.create(chitietdathang);
+             // thêm chi tiết đặt hành thành công
+              // xoá giỏ hàng này của khách hàng
+              await giohangService.deleteALLSPGioHangKhachHang(idkhachhang);
+              // update số lượng các sản phẩm;
+              const sanphamupdate = {
+                soluong: chitietdathang.soluongtonkho - chitietdathang.soluong
+              }
+             const spupdate = await hanghoaService.update(chitietdathang.idhanghoa, sanphamupdate);
+              // liệt kê tất cả giỏ hàng có id hàng hoá này 
+              const listspgiohang = await giohangService.getByIdSP(chitietdathang.idhanghoa);
+              if(listspgiohang!=null || listspgiohang!=[]){
+              listspgiohang.forEach(async (giohang)=> {
+                if(giohang.soluong > (chitietdathang.soluongtonkho - chitietdathang.soluong)){
+                     const giohangupdate = {
+                      soluong: chitietdathang.soluongtonkho - chitietdathang.soluong,
+                     }
+                     await giohangService.update(giohang._id, giohangupdate);
+                }
+                else if((chitietdathang.soluongtonkho - chitietdathang.soluong)==0){
+                  await giohangService.delete(giohang._id);
+                }
+                //update sản phẩm nếu sản phẩm lớn hơn tồn kho thì soluong=tonkho, còn không thì giữ nguyên;
+              })
+            }
+           });
+            }
+         alert("đặt hàng thành công");
+
+         this.getSPGioHang();
+         this.$router.push({   name: 'DonHang',
+                query: {id: this.user._id} });
+            }catch(e){
+              console.log(e);
+            alert('Lỗi' + e.response.status);
+    
+            }
+          }
+          
    
     },
     async created() {
@@ -336,8 +407,9 @@
           month: "2-digit",
           day: "2-digit",
         };
-        this.ngaydat = currentDate.toLocaleDateString("vi-VN", dateFormatOptions);
-        this.ngaygiaohang = deliveryDate.toLocaleDateString("vi-VN", dateFormatOptions);
+        this.dathang.ngaydat = currentDate.toLocaleDateString("vi-VN", dateFormatOptions);
+        this.dathang.ngaygiao = deliveryDate.toLocaleDateString("vi-VN", dateFormatOptions) + " (Dự kiến)";
+        console.log(this.dathang.ngaydat);
   },
   };
   </script>

@@ -112,10 +112,10 @@
            class="nav-link"
         ><i class="fa fa-cart-shopping icon-cart"></i>
         </router-link>
-      <ul class="navbar-nav" id="nguoidung" v-if="session_user!=null">
+      <ul class="navbar-nav" id="nguoidung" v-if="this.user">
         <li class="nav-item dropdown danhsachnguoidung">
         <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="dropdownMenuButton1" aria-expanded="false">
-          {{session_user.token.hoten}}
+          {{this.user.hoten}}
         </a>
             <div class="dropdown-menu container danhsach"  aria-labelledby="dropdownMenuButton1">
 
@@ -162,8 +162,9 @@
 </style>
 
 <script>
-import InputSearch from './InputSearch.vue';
-import loaihangService from "../services/loaihang.service";
+import InputSearch from '@/components/InputSearch.vue';
+import loaihangService from "@/services/loaihang.service";
+import khachhangService from "@/services/khachhang.service";
 export default {
   components: {
     InputSearch
@@ -175,7 +176,8 @@ export default {
   },
   data() {
     return {
-      loaihang: []
+      loaihang: [],
+      user: null,
     };
   },
   computed: {
@@ -199,7 +201,20 @@ export default {
     this.$store.commit('setSessionUser', null);
     this.$router.push({ path: "/" });
   },
+  async getUser() {
+    if(this.session_user && this.session_user.token.id!=null){
+      
+                try {
+                    // lấy danh sách các loại hàng
+                  this.user = await khachhangService.getById(this.session_user.token.id);
+                 
+                } catch (error) {
+                    console.log(error);
+                }
+              }
+  },
   async getALLLoaiHang() {
+   
                 try {
                     // lấy danh sách các loại hàng
                   this.loaihang = await loaihangService.getAll();
@@ -208,8 +223,10 @@ export default {
                 }
             },
 },
-mounted(){
-this.getALLLoaiHang(); // gọi khi trang vừa được load
-}
-}
+  mounted(){
+        this.getUser();
+            this.getALLLoaiHang(); // gọi khi trang vừa được load
+            
+            }
+      }
 </script>

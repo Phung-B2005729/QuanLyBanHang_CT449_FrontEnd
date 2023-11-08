@@ -61,7 +61,7 @@
           <ul class="navbar-nav" id="nguoidung" v-if="session_user!=null">
             <li class="nav-item dropdown danhsachnguoidung">
             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="dropdownMenuButton1" aria-expanded="false">
-              {{session_user.token.hoten}}
+              {{admin.hoten}}
             </a>
                 <div class="dropdown-menu container danhsach"  aria-labelledby="dropdownMenuButton1">
                   <a class="dropdown-item" href="/khachhang">Trang cá nhân</a>
@@ -96,21 +96,35 @@
       }
     </style>
     
-    <script>
-    import InputSearch from './InputSearch.vue';
+<script>
+import InputSearch from '@/components/InputSearch.vue';
+import nhanvienService from '@/services/nhanvien.service';
     export default {
       components: {
         InputSearch
       },
       props: {
-        session_user: { type : Object, default : null
+        session_admin: { type : Object, default : null
         } // dữ liệu kiểm tra đăng nhập
+      },
+      data(){
+          return {
+            admin: null
+          }
       },
       
       methods: {
       setSession_user(){
         this.$store.commit('setSessionUser', null)
-      }
+      },
+      async getUser() {
+    try {
+                    // lấy danh sách các loại hàng
+                  this.admin = await nhanvienService.getById(this.session_admin.token.id);
+                } catch (error) {
+                    console.log(error);
+                }
+      },
     }
     }
     </script>

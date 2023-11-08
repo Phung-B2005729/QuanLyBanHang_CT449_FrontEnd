@@ -10,6 +10,7 @@ import DonHang from '@/views/DonHang.vue'
 import GioHang from '@/views/GioHang.vue'
 import CaNhan from '@/views/CaNhan.vue'
 import ThanhToan from '@/views/ThanhToan.vue'
+import ChiTietDonHang from '@/views/ChiTietDonHang.vue';
     const routes = [
         {
             path: "/",
@@ -50,7 +51,6 @@ import ThanhToan from '@/views/ThanhToan.vue'
       path: "/donhang",
       name: "DonHang",
       component: DonHang, // trang hiển thị
-    
       beforeEnter: (to, from, next) => {
         // Kiểm tra xem người dùng đã đăng nhập thành công chưa
         const sessionUser = store.state.session_user;
@@ -64,6 +64,23 @@ import ThanhToan from '@/views/ThanhToan.vue'
       },
 
   }, 
+  {
+    path: "/chitietdonhang",
+    name: "ChiTietDonHang",
+    component: ChiTietDonHang, // trang hiển thị
+    beforeEnter: (to, from, next) => {
+      // Kiểm tra xem người dùng đã đăng nhập thành công chưa
+      const sessionUser = store.state.session_user;
+      if (sessionUser!=null) {
+        // đã đăng nhập, chuyển hướng đến trang chính
+        next();
+      } else {
+        // chưa đăng nhập, cho phép truy cập trang đăng nhập
+        next("/");
+      }
+    },
+}, 
+  
   {
     path: "/thanhtoan",
     name: "thanhtoan",

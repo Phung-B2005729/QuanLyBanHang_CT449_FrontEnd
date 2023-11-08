@@ -121,15 +121,18 @@
                               
                                     <div class="col-12 mt-3 ">
                                       <!--Truyển trang thanh toán-->
-                                       <routerLink
+                                       <routerLink v-if="this.tongsotien>0"
                                        :to="{ name: 'thanhtoan', query: { id: session_user.token.id }}"
                                        class="thanhtoan-router"
-                                       >  <button type="submit" 
+                                       >  <button 
                                             class="text-center mt-2 text-light form-control bg-danger">
                                            THANH TOÁN
                                         </button>
                                       </routerLink>
-
+                                       <button v-else
+                                            class="text-center mt-2 form-control bg-secondary" disabled>
+                                           THANH TOÁN
+                                        </button>
                                       
                                     </div>
                                    
@@ -245,7 +248,7 @@ import { RouterLink } from "vue-router";
         
           this.setMessage("Số lượng trong kho không đủ", giohang)
         }
-        else if(giohang.soluong>1){
+        else if(giohang.soluong>=1){
           giohang.soluong = await giohang.soluong + 1;
           const updae = {
             idkhachhang: giohang.idkhachhang,
