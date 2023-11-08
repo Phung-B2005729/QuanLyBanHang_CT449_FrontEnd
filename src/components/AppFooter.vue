@@ -117,9 +117,10 @@
              
         </div>
       </p>
-                 <p  class="mb-3"> <router-link 
+      <p  class="mb-3">  <router-link 
             :to="{
                 name: 'DonHang',
+                query: {id: session_user.token.id}
             }"
            class="nav-link"
         >
