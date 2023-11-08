@@ -17,8 +17,8 @@
         <div class="log container">
             <div class="row px-xl-4 pb-2">
                 <div class="col-xl-5 col-md-10 mb-3">
-                    <div class="img_e">
-                        <img :src="this.sanphams.linkanh" alt="Khong load được ảnh"
+                    <div class="img_e" >
+                        <img v-if="this.sanphams.linkanh" :src="this.sanphams.linkanh" alt="Khong load được ảnh"
                             style="width: 28rem; height:30rem">
                     </div>
                 </div>

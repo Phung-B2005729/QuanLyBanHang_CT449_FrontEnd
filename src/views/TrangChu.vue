@@ -23,21 +23,21 @@
                         <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                             <div class="carousel-inner">
                               <div class="carousel-item active" id="anhbanner">
-                                <img src="src/assets/pet4.png" class="d-block w-100" alt="carousel-1">
+                                <img src="@/assets/pet4.png" class="d-block w-100" alt="carousel-1">
                                 <div class="text">
                                     <p>PET SHOP ARCH</p>
                                     <h2>Thương hiệu hàng đầu dành cho thú cưng</h2>
                                 </div>
                               </div>
                               <div class="carousel-item" id="anhbanner">
-                                <img src="src/assets/pet1.jpg" class="d-block w-100" alt="carousel-2">
+                                <img src="@/assets/pet1.jpg" class="d-block w-100" alt="carousel-2">
                                 <div class="text">
                                     <p>Pet Shop ưu đãi!!</p>
                                     <h2>Ưu đãi lớn cho đơn hàng đầu tiên</h2>
                                 </div>
                               </div>
                               <div class="carousel-item" id="anhbanner">
-                                <img src="src/assets/pet2.jpg" class="d-block w-100" alt="carousel-3">
+                                <img src="@/assets/pet2.jpg" class="d-block w-100" alt="carousel-3">
                                 <div class="text">
                                     <p>Thương Hiệu Hàng Đầu Dành Cho Thú Cưng</p>
                                     <h2>Pet Shop Uy tính, Chất lượng, Đảm bảo đổi trả 100%</h2>

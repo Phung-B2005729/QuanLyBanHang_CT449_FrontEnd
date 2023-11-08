@@ -62,7 +62,7 @@
                                
                                 <td class=" pt-3">
                                     <div class="col-6 p-0">
-                                        <img :src="giohang.linkanh" alt="loi"
+                                        <img v-if="giohang.linkanh" :src="giohang.linkanh" alt="loi"
                                             style="height: 5rem;width: 5rem; object-fit: cover">
                                     </div>
                                 </td>
