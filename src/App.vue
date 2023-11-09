@@ -1,7 +1,7 @@
 <template>
   <div id="app">
  
-     <routerView :session_user="session_user"></routerView> 
+     <routerView :session_user="session_user" :session_admin="session_admin"></routerView> 
    
    </div>
 </template>
@@ -10,7 +10,10 @@ import store from '@/store';
 export default {
   computed: {
     session_user() {
-      return store.state.session_user; // Thay vì this.$store, bạn sử dụng store trực tiếp
+      return store.state.session_user; // Thay vì this.$store, 
+    },
+    session_admin() {
+      return store.state.session_admin; // Thay vì this.$store, 
     },
   },
 };
@@ -31,8 +34,6 @@ console.log(store.state.session_user)
   
 
 }
-
-
 .page {
 max-width: 500px;
 margin: auto;

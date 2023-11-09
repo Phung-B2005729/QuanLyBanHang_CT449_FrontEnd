@@ -10,7 +10,7 @@
     <button class="navbar-toggler icon-tab" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse col-6" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
       <li class="nav-item">
         <router-link :to="{ name: 'trangchu' }" class="nav-link">Trang Chủ
@@ -93,7 +93,10 @@
       </ul>
     </div>
     <!---Tìm kiếm Form-->
+   <div class="col-3">
     <InputSearch></InputSearch>
+   </div> 
+   
     <router-link v-if="session_user!=null"
             :to="{
                 name: 'GioHang',
@@ -197,10 +200,13 @@ export default {
   },
   
   methods: {
-  setSession_user(){
+     setSession_user(){
     this.$store.commit('setSessionUser', null);
+   this.user=null;
     this.$router.push({ path: "/" });
+    
   },
+
   async getUser() {
     if(this.session_user && this.session_user.token.id!=null){
       

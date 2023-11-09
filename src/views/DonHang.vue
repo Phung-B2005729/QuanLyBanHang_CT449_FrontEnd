@@ -66,7 +66,12 @@
                                       {{dathang.ngaydat}}
                                     </div>
                                 </td>
-                                <td class="pt-3"> 
+                                <td class="pt-3" v-if="dathang.tinhtrang=='Chờ xác nhận'"> 
+                                  <div class="col">
+                                    {{dathang.ngaygiao}} (Dự Kiến)
+                                  </div>
+                                </td>
+                                <td class="pt-3" v-else> 
                                   <div class="col">
                                     {{dathang.ngaygiao}}
                                   </div>
@@ -96,7 +101,7 @@
                                 </td>
                                 <td class="pt-3">
                                  <!--Chờ xác nhận thì cho huỷ-->
-                                    <div v-if="dathang.tinhtrang=='Chờ xác nhận'">
+                                    <div v-if="dathang.tinhtrang == 'Chờ xác nhận'">
                                      
                                                          <i class="fa-solid fa-trash icon-xoa" data-bs-toggle="modal" data-bs-target="#delete-confirm1"></i>
                                         <div class="modal fade" id="delete-confirm1" tabindex="-1" aria-labelledby="delete-confirm1Label" aria-hidden="true">
@@ -108,7 +113,7 @@
                                                             <div class="modal-footer">
                                                   <a type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</a>
                                                  <!--xử lý xoá-->
-                                                  <button  class="btn btn-xs btn-danger" data-bs-dismiss="modal" @click="huyDon (dathang._id)">Delete</button>
+                                                  <button  class="btn btn-xs btn-danger" data-bs-dismiss="modal" @click="huyDon(dathang._id)">Delete</button>
                                                  
                                                 </div>
                                             </div>
@@ -167,6 +172,7 @@
         const data = {
           tinhtrang: 'Đã huỷ'
         }
+        console.log('Gọi huỷ đơn');
          const resu = await dathangService.update(iddathang,data);
          this.getSPdathang();
          this.$router.push({   name: 'DonHang',
@@ -198,6 +204,9 @@
     async created() {
       this.getSPdathang();
   },
+  mounted(){
+    this.getSPdathang();
+  }
   };
   </script>
   <style>

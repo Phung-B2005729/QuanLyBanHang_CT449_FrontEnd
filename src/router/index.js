@@ -11,35 +11,32 @@ import GioHang from '@/views/GioHang.vue'
 import CaNhan from '@/views/CaNhan.vue'
 import ThanhToan from '@/views/ThanhToan.vue'
 import ChiTietDonHang from '@/views/ChiTietDonHang.vue';
+import SanPhamTimKiem from '@/views/SanPhamTimKiem.vue';
+import DanhSachHangHoa from '@/views/DanhSachHangHoa.vue';
+import DanhSachKhachHang from '@/views/DanhSachKhachHang.vue';
+import DanhSachNhanVien from '@/views/DanhSachNhanVien.vue';
+import QuanLyDonHang from '@/views/QuanLyDonHang.vue';
+import AdminDangNhap from '@/views/AdminDangNhap.vue';
     const routes = [
         {
             path: "/",
             name: "trangchu",
             component: TrangChu, // trang hiển thị
         }, 
-        {
-            path: "/admin",
-            name: "admin",
-            component: Admin,
-            beforeEnter: (to, from, next) => {
-                // Kiểm tra xem người dùng đã đăng nhập thành công chưa
-                const sessionAdmin = store.state.session_admin;
-                if (sessionAdmin) {
-                  // Đã đăng nhập, chuyển hướng đến trang chính
-                  next();
-                } else {
-                  // Chưa đăng nhập, cho phép truy cập trang đăng nhập
-                  next('/admin/dangnhap');
-                }
-              }, // trang hiển thị
-        }, 
+        
         {
           path: "/sanpham/:id",
           name: "sanpham",
           component: SanPham, // trang hiển thị
           
 
-      }, 
+      },
+      {
+        path: "/sanphamtimkiem",
+        name: "SanPhamTimKiem",
+        component: SanPhamTimKiem, // trang hiển thị
+        props: (route) => ({ tenhh: route.query.tenhh }),
+    },  
       {
         path: "/sanphamchitiet/:id",
         name: "sanphamchitiet",
@@ -101,7 +98,6 @@ import ChiTietDonHang from '@/views/ChiTietDonHang.vue';
     path: "/canhan",
     name: "CaNhan",
     component: CaNhan, // trang hiển thị
-   
     beforeEnter: (to, from, next) => {
       // Kiểm tra xem người dùng đã đăng nhập thành công chưa
       const sessionUser = store.state.session_user;
@@ -169,6 +165,91 @@ import ChiTietDonHang from '@/views/ChiTietDonHang.vue';
               },
             
         },
+        {
+          path: "/admin",
+          name: "admin",
+          component: Admin,
+          beforeEnter: (to, from, next) => {
+              // Kiểm tra xem người dùng đã đăng nhập thành công chưa
+              const sessionAdmin = store.state.session_admin;
+              if (sessionAdmin) {
+                // Đã đăng nhập, chuyển hướng đến trang chính
+                next();
+              } else {
+                // Chưa đăng nhập, cho phép truy cập trang đăng nhập
+                next('/admin/dangnhap');
+              }
+            }, // trang hiển thị
+      },
+      {
+        path: "/quanlydonhang",
+        name: "QuanLyDonHang",
+        component: QuanLyDonHang,
+        beforeEnter: (to, from, next) => {
+            // Kiểm tra xem người dùng đã đăng nhập thành công chưa
+            const sessionAdmin = store.state.session_admin;
+            if (sessionAdmin) {
+              // Đã đăng nhập, chuyển hướng đến trang chính
+              next();
+            } else {
+              // Chưa đăng nhập, cho phép truy cập trang đăng nhập
+              next('/admin/dangnhap');
+            }
+          }, // trang hiển thị
+    },
+    {
+      path: "/danhsachhanghoa",
+      name: "DanhSachHangHoa",
+      component: DanhSachHangHoa,
+      beforeEnter: (to, from, next) => {
+          // Kiểm tra xem người dùng đã đăng nhập thành công chưa
+          const sessionAdmin = store.state.session_admin;
+          if (sessionAdmin) {
+            // Đã đăng nhập, chuyển hướng đến trang chính
+            next();
+          } else {
+            // Chưa đăng nhập, cho phép truy cập trang đăng nhập
+            next('/admin/dangnhap');
+          }
+        }, // trang hiển thị
+  },
+  {
+    path: "/danhsachkhachhang",
+    name: "DanhSachKhachHang",
+    component: DanhSachKhachHang,
+    beforeEnter: (to, from, next) => {
+        // Kiểm tra xem người dùng đã đăng nhập thành công chưa
+        const sessionAdmin = store.state.session_admin;
+        if (sessionAdmin) {
+          // Đã đăng nhập, chuyển hướng đến trang chính
+          next();
+        } else {
+          // Chưa đăng nhập, cho phép truy cập trang đăng nhập
+          next('/admin/dangnhap');
+        }
+      }, // trang hiển thị
+},
+    {
+      path: "/danhsachnhanvien",
+      name: "DanhSachNhanVien",
+      component: DanhSachNhanVien,
+      beforeEnter: (to, from, next) => {
+          // Kiểm tra xem người dùng đã đăng nhập thành công chưa
+          const sessionAdmin = store.state.session_admin;
+          if (sessionAdmin) {
+            // Đã đăng nhập, chuyển hướng đến trang chính
+            next();
+          } else {
+            // Chưa đăng nhập, cho phép truy cập trang đăng nhập
+            next('/admin/dangnhap');
+          }
+        }, // trang hiển thị
+    },
+    {
+      path: "/admin/dangnhap",
+      name: "AminDangNhap",
+      component: AdminDangNhap,
+    },
         {
           path: "/:pathMatch(.*)*",
           name: "notfound",

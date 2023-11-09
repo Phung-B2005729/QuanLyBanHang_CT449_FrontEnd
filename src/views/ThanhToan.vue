@@ -69,7 +69,7 @@
                 </div>
              -->
               
-          <div class="shadow mb-5 p-3 rounded">
+          <div class="shadow mb-5 p-3 rounded bg-body">
             <div class="col-md-12 text-success">
                             <h5> <span><i class="fa-solid fa-cart-shopping"></i></span> Thông tin đơn hàng</h5>
                             <hr>
@@ -408,7 +408,7 @@
           day: "2-digit",
         };
         this.dathang.ngaydat = currentDate.toLocaleDateString("vi-VN", dateFormatOptions);
-        this.dathang.ngaygiao = deliveryDate.toLocaleDateString("vi-VN", dateFormatOptions) + " (Dự kiến)";
+        this.dathang.ngaygiao = deliveryDate.toLocaleDateString("vi-VN", dateFormatOptions);
         console.log(this.dathang.ngaydat);
   },
   };

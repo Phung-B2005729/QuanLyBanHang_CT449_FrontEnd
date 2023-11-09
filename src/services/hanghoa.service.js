@@ -7,6 +7,9 @@ class HangHoaService {
     async getAll() {
          return (await this.api.get("/")).data;
     }
+    async searchByName(tenhh) {
+        return (await this.api.get("/", { params: { tenhh } })).data;
+    }
     async create(data) {
         return (await this.api.post("/", data)).data;
     }

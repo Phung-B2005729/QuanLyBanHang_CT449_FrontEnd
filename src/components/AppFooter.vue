@@ -133,7 +133,7 @@
                 <a href="" class="mb-3"> <i class="fa-brands fa-facebook mb-3"></i> : Facebook</a>
                 <a href="" class="mb-3"><i class="fa-brands fa-square-instagram mb-3"></i> : Instagram</a>
                 <p><i class="fa fa-phone"> 0907789456</i></p>
-                <p class="mb-5"><i class="fa-solid fa-book"></i> : Phường Xuân Khánh,Huyện Ninh Kiều,TP.Cần Thơ</p>
+                <p class="mb-5">Phường Xuân Khánh,Huyện Ninh Kiều,TP.Cần Thơ</p>
                
             </div>
         </div>
