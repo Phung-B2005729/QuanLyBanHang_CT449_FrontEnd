@@ -402,13 +402,16 @@
         deliveryDate.setDate(deliveryDate.getDate() + 6);
 
         // Định dạng ngày tháng để hiển thị
-        const dateFormatOptions = {
+      /*  const dateFormatOptions = {
           year: "numeric",
           month: "2-digit",
           day: "2-digit",
         };
         this.dathang.ngaydat = currentDate.toLocaleDateString("vi-VN", dateFormatOptions);
-        this.dathang.ngaygiao = deliveryDate.toLocaleDateString("vi-VN", dateFormatOptions);
+        this.dathang.ngaygiao = deliveryDate.toLocaleDateString("vi-VN", dateFormatOptions); */
+
+        this.dathang.ngaydat = currentDate.toLocaleDateString("en-CA");
+        this.dathang.ngaygiao = deliveryDate.toLocaleDateString("en-CA");
         console.log(this.dathang.ngaydat);
   },
   };

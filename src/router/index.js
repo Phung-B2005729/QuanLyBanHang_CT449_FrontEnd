@@ -12,11 +12,13 @@ import CaNhan from '@/views/CaNhan.vue'
 import ThanhToan from '@/views/ThanhToan.vue'
 import ChiTietDonHang from '@/views/ChiTietDonHang.vue';
 import SanPhamTimKiem from '@/views/SanPhamTimKiem.vue';
-import DanhSachHangHoa from '@/views/DanhSachHangHoa.vue';
+import DanhSachSanPham from '@/views/DanhSachSanPham.vue';
 import DanhSachKhachHang from '@/views/DanhSachKhachHang.vue';
 import DanhSachNhanVien from '@/views/DanhSachNhanVien.vue';
 import QuanLyDonHang from '@/views/QuanLyDonHang.vue';
 import AdminDangNhap from '@/views/AdminDangNhap.vue';
+import AddSanPham from  '@/views/AddSanPham.vue';
+import EditSanPham from  '@/views/EditSanPham.vue';
     const routes = [
         {
             path: "/",
@@ -198,9 +200,9 @@ import AdminDangNhap from '@/views/AdminDangNhap.vue';
           }, // trang hiển thị
     },
     {
-      path: "/danhsachhanghoa",
-      name: "DanhSachHangHoa",
-      component: DanhSachHangHoa,
+      path: "/danhsachsanpham",
+      name: "DanhSachSanPham",
+      component: DanhSachSanPham,
       beforeEnter: (to, from, next) => {
           // Kiểm tra xem người dùng đã đăng nhập thành công chưa
           const sessionAdmin = store.state.session_admin;
@@ -245,6 +247,20 @@ import AdminDangNhap from '@/views/AdminDangNhap.vue';
           }
         }, // trang hiển thị
     },
+    {
+      path: "/editsanpham/:id",
+      name: "editsanpham",
+      component: EditSanPham, // trang hiển thị
+      
+
+  },
+  {
+    path: "/addsanpham",
+    name: "addsanpham",
+    component: AddSanPham, // trang hiển thị
+    
+
+},
     {
       path: "/admin/dangnhap",
       name: "AminDangNhap",

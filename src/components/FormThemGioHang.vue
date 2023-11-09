@@ -1,7 +1,7 @@
 <template>
-     <form  @submit.prevent="submitthemgiohang">
+     <form @submit.prevent="submitthemgiohang">
                             <div class="row form-group">
-                              <label for="soluong" class="col-2 mt-2"><b>Số Lượng :</b></label>
+                              <label for="soluong" class="col-3 mt-2"><b>Số Lượng :</b></label>
                                 <div class="col-6">
                                    
                                         <div class="btn-group" role="group" aria-label="Button group with nested dropdown">

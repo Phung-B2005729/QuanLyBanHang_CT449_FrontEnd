@@ -19,6 +19,9 @@ class HangHoaService {
     async delete(id) {
         return (await this.api.delete(`/${id}`)).data;
     }
+    async deleteALL() {
+        return (await this.api.delete('/')).data;
+    }
     async getALLSanPhamTheoLoai(idloai) {
         return (await this.api.get(`/loaihang/${idloai}`)).data;
     }

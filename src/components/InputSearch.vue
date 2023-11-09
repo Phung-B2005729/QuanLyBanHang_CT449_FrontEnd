@@ -1,7 +1,6 @@
 <template>
      <form class="d-flex" id="form-search" @submit.prevent="submittimkiem()">
         <input class="form-control me-2 search" type="search" placeholder="Tìm sản phẩm" v-model="this.tenhh" aria-label="Search" >
-       
         <button class="btn btn-ligth icon-search" type="submit"><i class="fa fa-search"></i></button>
       </form>
 </template>

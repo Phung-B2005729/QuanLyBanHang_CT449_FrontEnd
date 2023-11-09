@@ -85,4 +85,55 @@
     },
   };
   </script>
-  
+  <!--<div class="page row">
+    <div class="col-md-10">
+        <InputSearchAdmin v-model="searchText" />
+    </div>
+     <div class="mt-3 col-md-6">
+        <h4>
+            Danh Sách Hàng Hoá
+            <i class="fas fa-address-book"></i>
+        </h4>
+        <HangHoaList
+            v-if="filteredhanghoaCount > 0"
+            :listhanghoa="filteredhanghoa"
+            v-model:activeIndex="activeIndex"
+            />
+        <p v-else>Không có hàng hoá nào</p>
+        <div class="mt-3 row justify-content-around align-items-center">
+            <button class="btn btn-sm btn-primary" @click="refreshList()">
+                <i class="fas fa-redo"></i> Làm mới
+            </button>
+            <button class="btn btn-sm btn-success" @click="goToAddHangHoa">
+                <i class="fas fa-plus"></i> Thêm mới
+            </button>
+            <button
+                class="btn btn-sm btn-danger"
+                @click="removeAllhanghoa"
+                >
+                <i class="fas fa-trash"></i> Xóa tất cả
+            </button>
+        </div>
+    </div>
+  <div class="mt-3 col-md-6">
+    <div v-if="activeHangHoa">
+        <h4>
+            Chi tiết Sản Phẩm
+            <i class="fas fa-address-card"></i>
+        </h4>
+
+        <h5>Thông tin sản phẩm</h5>
+      Thông tin sản phẩm chi tiết
+        <router-link 
+            :to="{
+                name: 'editsanpham',
+                params: { id: activeHangHoa._id }, // truyền tham số id với giá trị id của contact đang được chọn vao trang edit-delete
+            }"
+        >
+            <span class="mt-2 badge badge-warning">
+                <i class="fas fa-edit"></i> Hiệu chỉnh
+            </span>
+        </router-link>
+    </div>
+    </div> 
+</div> -->

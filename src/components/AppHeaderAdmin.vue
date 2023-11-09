@@ -19,12 +19,12 @@
           <li class="nav-item" v-if="session_admin!=null">
             <router-link 
               :to="{
-                  name: 'DanhSachHangHoa',
+                  name: 'DanhSachSanPham',
                   
               }"
              class="nav-link"
           >
-        Danh sách hàng hoá
+        Danh sách sản phẩm
           </router-link>
           </li>
           <li class="nav-item dropdown">
