@@ -1,7 +1,7 @@
 <template>
   <div>
     <AppHeaderAdmin :session_admin="session_admin" />
-<main>
+<main class="main-admin">
   <div id="hdsd">
   <div class="col-4 offset-1 mt-3 danhsachsanpham">
       <InputSearchAdmin v-model="this.searchText" />

@@ -32,7 +32,7 @@
           </div>
           
       </div>
-      <div class="row mb-3 mt-3 form-group" v-if="nguoidungLocal.chucvu">
+      <div class="row mb-3 mt-3 form-group" >
           <label for="chucvu" class="form-label col-sm-3 nhaninput" >Chức Vụ<span class="error">*:</span></label>
           <div class="col-9">
               <Field
@@ -60,7 +60,7 @@
               <ErrorMessage name="diachi" class="error-feedback" />     
           </div>      
       </div>
-      <div class="row mb-3  mt-3 form-group" v-if="nguoidungLocal.chucvu">
+      <div class="row mb-3  mt-3 form-group" >
           <label for="password" class="form-label col-3">Mật khẩu<span class="error">*:</span></label>
           <div class="col-9">
               <Field
@@ -75,7 +75,7 @@
           </div>
                    
       </div>
-      <div class="row mb-3 mt-3 form-group" v-if="nguoidungLocal.chucvu">
+      <div class="row mb-3 mt-3 form-group" >
           <label for="repassword" class="form-label col-3">Nhập lại mật khẩu<span class="error">*:</span></label>
           <div class="col-9">
                   <Field
