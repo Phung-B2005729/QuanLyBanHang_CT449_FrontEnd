@@ -145,9 +145,15 @@ export default {
       },
       async removeAllnhanvien() {
               // xoá tất cả liên hệ
-              if (confirm("Bạn muốn xóa tất cả hàng hoá?")) {
+              if (confirm("Bạn muốn xóa tất cả nhân viên?")) {
                   try {
-                      await nhanvienService.deleteAll();
+                   const resu = await nhanvienService.deleteAll();
+                   this.listnhanvien.forEach(async (nhanvien)=>{
+                          await dathangService.deleteALLIdNhanVien(nhanvien._id);
+                      });
+                    const document =  await nhanvienService.logout();
+                   this.$store.commit('setSessionAdmin', document.token);
+                    alert("Đã xoá");
                       this.refreshList();
                   } catch (error) {
                       console.log(error);

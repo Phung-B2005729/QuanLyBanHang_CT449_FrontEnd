@@ -166,10 +166,11 @@
                             v-model="this.dondathang.tinhtrang"
                             
                         >
-                                <option v-if="this.dondathang.tinhtrang!=''" selected >{{this.dondathang.tinhtrang}}</option>
+                                <option v-if="this.dondathang.tinhtrang!=''" selected>{{this.dondathang.tinhtrang}}</option>
                                 <option v-if="this.dondathang.tinhtrang!='Đã xác nhận'">Đã xác nhận</option>
                                     <option v-if="this.dondathang.tinhtrang!='Đang giao'">Đang giao</option>
                                     <option v-if="this.dondathang.tinhtrang!='Đã nhận hàng'">Đã nhận hàng</option>
+                                    <option v-if="this.dondathang.tinhtrang!='Đã huỷ'">Đã huỷ</option>
                         
                             <!-- Thêm các loại hàng khác nếu cần -->
                         </select>

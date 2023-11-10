@@ -85,7 +85,11 @@
     },
   };
   </script>
-  <!-- <div class="row p-4 text-success text-left">
+  <!-- 
+      this.$router.push({
+                      name: "notfoundadmin",
+                  });
+    <div class="row p-4 text-success text-left">
     <h3 class="col-4">Chi tiết hoá đơn</h3>
     <div class="hieuchinh col-6 text-success">
               

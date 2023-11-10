@@ -1,8 +1,8 @@
 <template>
-    <Form class="row formdangky"  
-    @submit="submitDangKy"
-      :validation-schema="userFormSchema">
-      <h2>Thêm Nhân Viên</h2>
+    <Form class="row form-capnhat"  
+    @submit="submitNguoiDung"
+      :validation-schema="nguoidungFormSchema">
+     
       <hr/>
       <div class="row mb-3 mt-3 form-group">
           <label for="hoten" class="form-label col-sm-3 nhaninput" >Họ và tên<span class="error">*:</span></label>
@@ -90,8 +90,8 @@
       </div>
       <div class="row mt-2 mb-5">
         <div class="form-group col-6 offset-7">
-        <button class="btn btn-primary">Lưu</button>   
-        <button  type="button" class="ml-2 btn btn-danger" @click="deleteHangHoa">Xóa</button> </div>
+        <button class="btn btn-primary m-2">Lưu</button>   
+        <button  type="button" class="m-2 btn btn-danger" @click="deletenguoidung">Xóa</button> </div>
      </div> 
   </Form>
 </template>
@@ -136,11 +136,17 @@
                 
             },
             deletenguoidung() {
-                this.$emit("delete:nguoidung", this.nguoidungLocal.id);  // sự kiện delete
+                this.$emit("delete:nguoidung", this.nguoidungLocal._id);  // sự kiện delete
             },
         },
     };
 </script>
 <style scoped>
-        @import "@/assets/form.css";
+.form-capnhat{
+ margin-left: 25rem;
+ margin-right: 25rem;
+}
+.error-feedback{
+    color: red;
+}
 </style>

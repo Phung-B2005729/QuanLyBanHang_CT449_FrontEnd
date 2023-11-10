@@ -142,14 +142,18 @@ export default {
       },
       async removeAllkhachhang() {
               // xoá tất cả liên hệ
-              if (confirm("Bạn muốn xóa tất cả hàng hoá?")) {
+              if (confirm("Bạn muốn xóa tất cả khách hàng?")) {
                   try {
-                      await khachhangService.deleteAll();
+                    console.log("Gọi xoá tất cả");
+                    const resu = await khachhangService.deleteAll();
+                    console.log(resu==null);
                       // xoá các hoá đơn có idkhachhang= khách hàng;
                       this.listkhachhang.forEach(async (khachhang)=>{
                           await dathangService.deleteALLIdKhachhang(khachhang._id);
                       });
-                    
+                    const document =  await khachhangService.logout();
+                   this.$store.commit('setSessionUser', document.token);
+                    alert("Đã xoá");
                       this.refreshList();
                   } catch (error) {
                       console.log(error);

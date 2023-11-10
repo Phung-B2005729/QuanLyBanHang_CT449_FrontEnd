@@ -174,6 +174,7 @@
         }
         console.log('Gọi huỷ đơn');
          const resu = await dathangService.update(iddathang,data);
+         
          this.getSPdathang();
          this.$router.push({   name: 'DonHang',
                 query: {id: this.$route.query.id} });

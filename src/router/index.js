@@ -287,6 +287,11 @@ import EditNhanVien from  '@/views/EditNhanVien.vue';
           name: "notfound",
           component: () => import("@/views/NotFound.vue"),
           },
+          {
+            path: "/:pathMatch(.*)*",
+            name: "notfoundadmin",
+            component: () => import("@/views/NotFoundAdmin.vue"),
+            },
 
     ];
     const router = createRouter({

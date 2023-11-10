@@ -25,7 +25,7 @@ class KhachHangService {
     async delete(id) {
         return (await this.api.delete(`/${id}`)).data;
     }
-    async deleteALL() {
+    async deleteAll() {
         return (await this.api.delete("/")).data;
     }
 }

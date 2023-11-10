@@ -75,9 +75,9 @@
                     console.log(error);
                     // Chuyển sang trang NotFound 
                     this.$router.push({
-                        name: "DanhSachSanPham",
-                    
-                    });
+                      name: "notfound",
+                  
+                  });
                 }
             },
             async updateHangHoa(data, hinhanhdata,fileupload) {  // ham goi submit
