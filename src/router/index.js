@@ -99,7 +99,7 @@ import EditNhanVien from  '@/views/EditNhanVien.vue';
     },
 }, 
   {
-    path: "/canhan",
+    path: "/canhan/:id",
     name: "CaNhan",
     component: CaNhan, // trang hiển thị
     beforeEnter: (to, from, next) => {
@@ -282,16 +282,16 @@ import EditNhanVien from  '@/views/EditNhanVien.vue';
       name: "AminDangNhap",
       component: AdminDangNhap,
     },
-        {
-          path: "/:pathMatch(.*)*",
-          name: "notfound",
-          component: () => import("@/views/NotFound.vue"),
-          },
-          {
-            path: "/:pathMatch(.*)*",
-            name: "notfoundadmin",
-            component: () => import("@/views/NotFoundAdmin.vue"),
-            },
+    {
+      path: "/notfound",
+      name: "notfound",
+      component: () => import("@/views/NotFound.vue"),
+    },
+    {
+      path: "/notfoundadmin",
+      name: "notfoundadmin",
+      component: () => import("@/views/NotFoundAdmin.vue"),
+    },
 
     ];
     const router = createRouter({

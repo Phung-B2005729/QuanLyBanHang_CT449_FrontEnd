@@ -115,7 +115,7 @@
         </ul>
       </div>
 
-     <ul class="navbar-nav" id="nguoidung" v-if="this.admin">
+     <ul class="navbar-nav" id="nguoidung" v-if="this.admin!=null && session_user!=null && session_user.id!=null">
           <li class="nav-item dropdown danhsachnguoidung">
           <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="dropdownMenuButton1" aria-expanded="false">
           Amin
@@ -124,7 +124,7 @@
   
                 <router-link 
               :to="{
-                  name: 'CaNhan',
+                  name: 'CaNhanAdmin',
               }"
              class="dropdown-item"
           >
@@ -178,22 +178,24 @@
     methods: {
 
   async logout() {
-    try{
-    const document =  await nhanvienService.logout();
-    this.$store.commit('setSessionAdmin', null);
-    this.admin=null;
-    this.$router.push({ path: "/admin/dangnhap" });
-  }catch(e){
-    console.log("Lỗi " +e);
-  }
+        try{
+        const document =  await nhanvienService.logout();
+        this.$store.commit('setSessionAdmin', null);
+        this.admin=null;
+        this.$router.push({ path: "/admin/dangnhap" });
+      }catch(e){
+        console.log("Lỗi " +e);
+      }
       
     },
   
     async getadmin() {
       if(this.session_admin && this.session_admin.id!=null){
+        alert('Gọi get admin')
                   try {
                       // lấy danh sách admin
-                    this.admin = await nhanvienService.getById(this.session_admin.id);     
+                    this.admin = await nhanvienService.getById(this.session_admin.id);  
+                    alert(this.admin==null);   
                   } catch (error) {
                       console.log(error);
                   }
@@ -203,6 +205,9 @@
   },
     mounted(){
           this.getadmin();
-              }
+              },
+    created(){
+      this.getadmin();
+    }
         }
   </script>

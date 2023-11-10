@@ -151,10 +151,11 @@ export default {
                    this.listnhanvien.forEach(async (nhanvien)=>{
                           await dathangService.deleteALLIdNhanVien(nhanvien._id);
                       });
+                   
+                    alert("Đã xoá");
                     const document =  await nhanvienService.logout();
                    this.$store.commit('setSessionAdmin', document.token);
-                    alert("Đã xoá");
-                      this.refreshList();
+                  this.$router.push("/admin");
                   } catch (error) {
                       console.log(error);
                   }
@@ -174,8 +175,16 @@ export default {
                           await dathangService.update(hoadon._id,hoadon);
                         });
                       }
+                      if(nhanvien._id == this.session_admin.id){
+                        const resu = await nhanvienService.logout();
+                        this.$store.commit('setSessionAdmin', resu.token);
+                        alert('Đã xoá tài khoản admin hiện tại');
+                        this.$router.push("/admin");
+                      }
+                      else{
                       alert('Đã xoá');
                       this.refreshList();
+                    }
                   } catch (error) {
                       console.log(error);
                   }

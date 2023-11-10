@@ -95,7 +95,7 @@ export default {
                      }
                      alert('Đã xoá');
                      if(this.nguoidung._id==this.session_admin.id){
-                      const document = nhanvienService.logout();
+                      const document = await nhanvienService.logout();
                       this.$store.commit('setSessionAdmin', document.token);
                      }
                      this.$router.push("/danhsachnhanvien");

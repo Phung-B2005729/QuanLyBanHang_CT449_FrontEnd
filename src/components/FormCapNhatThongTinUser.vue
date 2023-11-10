@@ -1,7 +1,7 @@
 <template>
     <Form class="row form-capnhat"  
-    @submit="submitNguoiDung"
-      :validation-schema="nguoidungFormSchema">
+    @submit="submitKhachHang"
+      :validation-schema="khachhangFormSchema">
      
       <hr/>
       <div class="row mb-3 mt-3 form-group">
@@ -32,20 +32,7 @@
           </div>
           
       </div>
-      <div class="row mb-3 mt-3 form-group" v-if="nguoidungLocal.chucvu">
-          <label for="chucvu" class="form-label col-sm-3 nhaninput" >Chức Vụ<span class="error">*:</span></label>
-          <div class="col-9">
-              <Field
-                  name="chucvu"
-                  type="text"
-                  class="form-control "
-                  v-model="nguoidungLocal.chucvu"
-                  
-              />
-              <ErrorMessage name="chucvu" class="error-feedback" />
-                      
-          </div>
-      </div>        
+          
       <div class="row mb-3 mt-3 form-group">
                      
           <label for="diachi" class="form-label col-3">Địa Chỉ<span class="error">*:</span></label>
@@ -60,34 +47,7 @@
               <ErrorMessage name="diachi" class="error-feedback" />     
           </div>      
       </div>
-      <div class="row mb-3  mt-3 form-group" v-if="nguoidungLocal.chucvu">
-          <label for="password" class="form-label col-3">Mật khẩu<span class="error">*:</span></label>
-          <div class="col-9">
-              <Field
-                  name="password"
-                  type="password"
-                  class="form-control"
-                  v-model="nguoidungLocal.password"
-                 
-              />
-              <ErrorMessage name="password" class="error-feedback" />
-                   
-          </div>
-                   
-      </div>
-      <div class="row mb-3 mt-3 form-group" v-if="nguoidungLocal.chucvu">
-          <label for="repassword" class="form-label col-3">Nhập lại mật khẩu<span class="error">*:</span></label>
-          <div class="col-9">
-                  <Field
-                  v-model="nguoidungLocal.repassword"
-                      name="repassword"
-                      type="password"
-                      class="form-control"
-                     
-                  />
-                  <ErrorMessage name="repassword" class="error-feedback" />      
-          </div>        
-      </div>
+     
       <div class="row mt-2 mb-5">
         <div class="form-group col-6 offset-7">
         <button class="btn btn-primary m-2">Lưu</button>   
@@ -113,37 +73,35 @@
             mode: { type: String, default: "create" },// dữ lieu nguoidung nhận từ nguoidungadd, nguoidungedit
         },
         data() {
-            const nguoidungFormSchema = yup.object().shape({  // tạp 1 schema để kiểm tra dữ liệu
+            const khachhangFormSchema = yup.object().shape({  // tạp 1 schema để kiểm tra dữ liệu
                   // định nghĩa các ràng buộc dữ liệu nhập vào
                   hoten: yup.string().required("Vui lòng nhập họ tên").min(2, "Tên phải ít nhất 2 ký tự.").max(50, "Tên có nhiều nhất 50 ký tự."),
                 //
                 diachi: yup.string().required("Vui lòng nhập vào địa chỉ").max(100, "Địa chỉ tối đa 100 ký tự."),
                 //
                 sdt: yup.string().matches(/((09|03|07|08|05)+([0-9]{8})\b)/g,"Số điện thoại không hợp lệ."),
-                chucvu: yup.string().required("Vui lòng nhập vào chức vụ của nhân viên").min(2, "Chức vụ ít nhất 2 kí tự"),
-                password: yup.string().required("Vui lòng nhập vào mật khẩu của nhân viên").min(8, "Mật khẩu ít nhất 8 kí tự"),
-                repassword: yup.string().required("Vui lòng xác nhận lại mật khẩu đăng ký").oneOf([yup.ref('password')], 'Mật khẩu không trùng khớp'),
+              
             });
             return {
                 nguoidungLocal: this.nguoidung || { hoten: "", sdt: "", diachi: "", password: "", repassword: "", chucvu: "" },
-                nguoidungFormSchema,
+                khachhangFormSchema,
             };
         },
         methods: {
-            submitNguoiDung() {
-                this.$emit("submit:nguoidung", this.nguoidungLocal);  // sự kiện submit
-                
+            submitKhachHang() {
+             
+                this.$emit("submit:nguoidung", this.nguoidungLocal);  // sự kiện submit  
             },
             deletenguoidung() {
-                this.$emit("delete:nguoidung", this.nguoidungLocal._id);  // sự kiện delete
+                this.$emit("delete:nguoidung");  // sự kiện delete
             },
         },
     };
 </script>
 <style scoped>
 .form-capnhat{
- margin-left: 25rem;
- margin-right: 25rem;
+ margin-left: 3rem;
+ margin-right: 3rem;
 }
 .error-feedback{
     color: red;
