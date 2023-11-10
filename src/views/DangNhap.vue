@@ -54,7 +54,7 @@ export default {
                    // gọi login
                    const createdData =  await khachhangService.login(data);
                    if(createdData){
-                   await this.$store.commit('setSessionUser', createdData)
+                   await this.$store.commit('setSessionUser', createdData.token)
                    this.message = "Đăng nhập thành công"
                    this.$router.push({ path: "/" });
                    console.log(createdData.message);

@@ -52,7 +52,7 @@
                         @submit:themgiohang="submitthemgiohang"
                         :sanpham="sanphams"
                         :soluong="1"
-                        :idkhachhang="user_login.token.id"
+                        :idkhachhang="user_login.id"
                        
                         />
                         <!-- ======================================================================================== -->
@@ -140,10 +140,7 @@
         sanphams: null,
         listsanpham: [],
         user_login: this.session_user || {
-          token: {
             id: null,
-            hoten: null
-          }
         },
       };
     },
@@ -204,7 +201,7 @@
       async submitthemgiohang (data) {
         //alert(soluong);
       try{ 
-        if(this.user_login.token.id==null){
+        if(this.user_login.id==null){
           alert("Vui lòng đăng nhập tài khoản của bạn")
           this.$router.push({ name: 'DangNhap' });
         }

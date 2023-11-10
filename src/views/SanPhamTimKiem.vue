@@ -155,12 +155,12 @@
       },
       async themgiohang(sanpham)  {
         try{
-        if(this.session_user==null || (this.session_user && this.session_user.token.id == null)){
+        if(this.session_user==null || (this.session_user && this.session_user.id == null)){
           alert("Vui lòng đăng nhập tài khoản của bạn")
           this.$router.push({ name: 'DangNhap' });
         }
         else{
-            const document = await giohangService.getByIdKhacHangVaIdSP(this.session_user.token.id, sanpham._id);
+            const document = await giohangService.getByIdKhacHangVaIdSP(this.session_user.id, sanpham._id);
             
           if(document && ((document.soluong + 1) > sanpham.soluong)){
             // sản phẩm trong giỏ hàng đã đạt tối đa
@@ -170,7 +170,7 @@
           
           else{
             const data = {
-              idkhachhang: this.session_user.token.id,
+              idkhachhang: this.session_user.id,
               idhanghoa: sanpham._id,
               soluong: 1,
               gia: sanpham.gia

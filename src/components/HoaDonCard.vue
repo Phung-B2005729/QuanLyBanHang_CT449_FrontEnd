@@ -336,3 +336,27 @@
         },
    };
 </script>
+<style scoped>
+  #hdsd{
+    margin-top: 3rem;
+}
+.thongtinsanpham{
+  margin-left: 1rem;
+}
+
+.tongtien {
+  text-align: left;
+ 
+  font-weight: 700;
+  
+}
+.routelink {
+  text-decoration: none;
+  color: #000;
+  align-items: center;
+  margin-top: -0.7rem;
+  }
+.table td ,img {
+  text-align: center;
+}
+</style>

@@ -25,6 +25,15 @@ class DatHangServicee {
     async getALLIdKhachhang(idkhachhang) {
         return (await this.api.get(`/khachhang/${idkhachhang}`)).data;
     }
+    async getALLIdNhanVien(idnhanvien) {
+        return (await this.api.get(`/nhanvien/${idnhanvien}`)).data;
+    }
+    async deleteALLIdKhachhang(idkhachhang) {
+        return (await this.api.delete(`/khachhang/${idkhachhang}`)).data
+    }
+    async deleteALLIdNhanVien(idnhanvien) {
+        return (await this.api.delete(`/nhanvien/${idnhanvien}`)).data;
+    }
     
 }
        

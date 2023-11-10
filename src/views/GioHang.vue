@@ -122,7 +122,7 @@
                                     <div class="col-12 mt-3 ">
                                       <!--Truyển trang thanh toán-->
                                        <routerLink v-if="this.tongsotien>0"
-                                       :to="{ name: 'thanhtoan', query: { id: session_user.token.id }}"
+                                       :to="{ name: 'thanhtoan', query: { id: session_user.id }}"
                                        class="thanhtoan-router"
                                        >  <button 
                                             class="text-center mt-2 text-light form-control bg-danger">

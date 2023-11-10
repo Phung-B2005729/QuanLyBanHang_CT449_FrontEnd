@@ -89,7 +89,7 @@
         <div class="row mt-3 dangky-button">
                 <button class="btn" name="dangky">Đăng ký</button>
          </div>
-    </form>
+    </Form>
 </template>
 <script>
     import * as yup from "yup"; // thư viện xác thực kiểm tra tính hợp lệ

@@ -79,11 +79,11 @@
         Đăng Ký
         </router-link>
         </li>
-        <li class="nav-item" v-if="session_user!=null">
+        <li class="nav-item" v-if="session_user!=null && session_user.id!=null">
           <router-link 
             :to="{
                 name: 'DonHang',
-                query: {id: session_user.token.id}
+                query: {id: session_user.id}
             }"
            class="nav-link"
         >
@@ -97,10 +97,10 @@
     <InputSearch></InputSearch>
    </div> 
    
-    <router-link v-if="session_user!=null"
+    <router-link v-if="session_user!=null && session_user.id!=null"
             :to="{
                 name: 'GioHang',
-                query: { id: session_user.token.id }
+                query: { id: session_user.id }
             }"
            
            class="nav-link"
@@ -130,7 +130,7 @@
         >
         Trang Cá Nhân
         </router-link>
-               <a class="dropdown-item dangxuat" @click="setSession_user">Đăng xuất</a>
+               <a class="dropdown-item dangxuat" @click="logout">Đăng xuất</a>
             </div>
       </li>
         </ul>
@@ -172,11 +172,7 @@ export default {
   components: {
     InputSearch
   },
-  props: {
-    session_user: { type : Object, default : null
-    },
-     // dữ liệu kiểm tra đăng nhập
-  },
+ props: ["session_user"],
   data() {
     return {
       loaihang: [],
@@ -200,24 +196,32 @@ export default {
   },
   
   methods: {
-     setSession_user(){
-    this.$store.commit('setSessionUser', null);
-   this.user=null;
+    async logout() {
+    try{
+    const document =  await khachhangService.logout();
+    this.$store.commit('setSessionUser', document.token);
+     this.user=document.token;
     this.$router.push({ path: "/" });
+  }
+  catch(e){
+    console.log('Lỗi'+e);
+  }
     
   },
 
   async getUser() {
-    if(this.session_user && this.session_user.token.id!=null){
-      
+    if(this.session_user && this.session_user.id!=null){
                 try {
                     // lấy danh sách các loại hàng
-                  this.user = await khachhangService.getById(this.session_user.token.id);
+                  this.user = await khachhangService.getById(this.session_user.id);
+                  if(this.user==null){
+                    this.logout();
+                  }
                  
                 } catch (error) {
                     console.log(error);
                 }
-              }
+    }
   },
   async getALLLoaiHang() {
    

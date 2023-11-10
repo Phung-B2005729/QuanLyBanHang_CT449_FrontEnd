@@ -14,7 +14,7 @@ class KhachHangService {
     return (await this.api.post("/login", data)).data;
    }
    async logout(){
-    return (await this.api.post("/logout")).data;
+    return (await this.api.get("/logout")).data;
    }
    async getById(id){
     return (await this.api.get(`/${id}`)).data;

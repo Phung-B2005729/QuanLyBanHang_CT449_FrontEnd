@@ -72,7 +72,7 @@ export default {
                    // gọi login
                    const createdData =  await nhanvienService.login(data);
                    if(createdData){
-                   await this.$store.commit('setSessionAdmin', createdData)
+                   await this.$store.commit('setSessionAdmin', createdData.token);
                    this.message = "Đăng nhập thành công"
                    this.$router.push({ path: "/admin" });
                    console.log(createdData.message);

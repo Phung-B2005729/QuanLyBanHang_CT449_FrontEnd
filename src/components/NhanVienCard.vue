@@ -1,0 +1,54 @@
+
+
+<template>
+   
+ <div class="col-md-12">
+    <div class="shadow p-2 mb-5 bg-body rounded">
+        <div class="row p-4 " v-if="this.nguoidung">
+                        <div class="col-md-12 text-success">
+                            <h5> <span><i class="fa-solid fa-user"></i></span>Chi Tiết Khách Hàng</h5>
+                            <router-link id="route-link" style="text-decoration: none; color: #2b7778;"
+                              :to="{ name: 'editnhanvien', params: { id: this.nguoidung._id } }"
+                              >
+                          <i class="fas fa-edit"></i> Hiệu chỉnh
+                      </router-link>
+                            <hr>
+                        </div>
+                        <div class="col-md-12 mt-2">
+                          <b>Họ Tên :</b> {{this.nguoidung.hoten}}
+                        </div>
+                        <div class="col-md-12 mt-2">
+                          <b>Số điện thoại: </b>
+                            {{this.nguoidung.sdt}}
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <b>
+                            Chức vụ: 
+                          </b>
+                         {{this.nguoidung.chucvu}}
+                        
+                        </div>
+                        <div class="col-md-12 mt-3">
+                            <b>
+                            Địa chỉ: 
+                          </b>
+                         {{this.nguoidung.diachi}}
+                        
+                        </div>
+                        <div class="col-md-12 mt-2">
+                          <b>Số đơn hàng quản lý :</b>
+                            {{this.nguoidung.sodonquanly}}
+                        </div>
+                    </div>
+                </div>
+              </div>
+</template>
+<script>
+   export default {
+       props: {
+            nguoidung: { type: Object, required: true },
+       },
+       methods: {
+       }
+   };
+</script>

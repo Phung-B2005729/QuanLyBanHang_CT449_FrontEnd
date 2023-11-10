@@ -44,7 +44,7 @@
                           :huydon="huydon"
                           :capnhat="capnhat"
                           :xoa="xoa"
-                          :idadmin="session_admin.token.id"
+                          :idadmin="session_admin.id"
                           @updatehoadon="updateHoaDon"
                           @deletehoadon="deleteHoaDon"
                           />
@@ -220,9 +220,6 @@ export default {
                       console.log(error);
                   }
               }
-          },
-      goToAddDatHang() {
-             this.$router.push({ name: "addsanpham" }); 
           },
       async deleteHoaDon(HoaDon) {  // ham cho phuong thuc delete
                   try {

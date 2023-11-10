@@ -35,7 +35,7 @@
             <div class="col">
               <router-link 
               :to="{
-                  name: 'DanhSachNhanVien',
+                  name: 'DanhSachKhachHang',
                  
               }"
                class="dropdown-item"
@@ -130,7 +130,7 @@
           >
           Trang Cá Nhân
           </router-link>
-                 <a class="dropdown-item dangxuat" @click="setsession_admin">Đăng xuất</a>
+                 <a class="dropdown-item dangxuat" @click="logout">Đăng xuất</a>
               </div>
         </li>
           </ul>
@@ -168,11 +168,7 @@
     components: {
       InputSearch
     },
-    props: {
-      session_admin: { type : Object, default : null
-      },
-       // dữ liệu kiểm tra đăng nhập
-    },
+    props: ["session_admin"],
     data() {
       return {
         admin: null,
@@ -180,18 +176,24 @@
     },
   
     methods: {
-       setsession_admin(){
-      this.$store.commit('setSessionadmin', null);
-     this.admin=null;
-      this.$router.push({ path: "/" });
+
+  async logout() {
+    try{
+    const document =  await nhanvienService.logout();
+    this.$store.commit('setSessionAdmin', null);
+    this.admin=null;
+    this.$router.push({ path: "/admin/dangnhap" });
+  }catch(e){
+    console.log("Lỗi " +e);
+  }
       
     },
   
     async getadmin() {
-      if(this.session_admin && this.session_admin.token.id!=null){
+      if(this.session_admin && this.session_admin.id!=null){
                   try {
                       // lấy danh sách admin
-                    this.admin = await nhanvienService.getById(this.session_admin.token.id);     
+                    this.admin = await nhanvienService.getById(this.session_admin.id);     
                   } catch (error) {
                       console.log(error);
                   }

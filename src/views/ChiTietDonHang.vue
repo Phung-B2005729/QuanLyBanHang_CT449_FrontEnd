@@ -246,7 +246,7 @@ async created() {
   },
 }
 </script>
-  <style>
+  <style scoped>
   #hdsd{
     margin-top: 3rem;
 }

@@ -19,6 +19,8 @@ import QuanLyDonHang from '@/views/QuanLyDonHang.vue';
 import AdminDangNhap from '@/views/AdminDangNhap.vue';
 import AddSanPham from  '@/views/AddSanPham.vue';
 import EditSanPham from  '@/views/EditSanPham.vue';
+import AddNhanVien from  '@/views/AddNhanVien.vue';
+import EditNhanVien from  '@/views/EditNhanVien.vue';
     const routes = [
         {
             path: "/",
@@ -260,7 +262,21 @@ import EditSanPham from  '@/views/EditSanPham.vue';
     component: AddSanPham, // trang hiển thị
     
 
-},
+    },
+    {
+      path: "/editnhanvien/:id",
+      name: "editnhanvien",
+      component: EditNhanVien, // trang hiển thị
+      
+
+    },
+    {
+    path: "/addnhanvien",
+    name: "addnhanvien",
+    component: AddNhanVien, // trang hiển thị
+
+
+    },
     {
       path: "/admin/dangnhap",
       name: "AminDangNhap",

@@ -10,7 +10,7 @@
                           class="routelink "
                           :to="{
                 name: 'GioHang',
-                query: { id: session_user.token.id }
+                query: { id: session_user.id }
             }"
            
                           >
@@ -401,14 +401,7 @@
         const deliveryDate = new Date(currentDate);
         deliveryDate.setDate(deliveryDate.getDate() + 6);
 
-        // Định dạng ngày tháng để hiển thị
-      /*  const dateFormatOptions = {
-          year: "numeric",
-          month: "2-digit",
-          day: "2-digit",
-        };
-        this.dathang.ngaydat = currentDate.toLocaleDateString("vi-VN", dateFormatOptions);
-        this.dathang.ngaygiao = deliveryDate.toLocaleDateString("vi-VN", dateFormatOptions); */
+      
 
         this.dathang.ngaydat = currentDate.toLocaleDateString("en-CA");
         this.dathang.ngaygiao = deliveryDate.toLocaleDateString("en-CA");
@@ -416,7 +409,7 @@
   },
   };
   </script>
-  <style>
+<style scoped>
   #hdsd{
     margin-top: 3rem;
 }

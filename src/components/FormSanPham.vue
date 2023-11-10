@@ -121,14 +121,8 @@
       
      <div class="row mt-2 mb-5">
         <div class="form-group col-6 offset-7">
-            <button class="btn btn-primary">Lưu</button>   <button
-                type="button"
-                class="ml-2 btn btn-danger"
-                @click="deleteHangHoa"
-                >
-            Xóa
-            </button> </div>
-       
+            <button class="btn btn-primary">Lưu</button>   
+            <button  type="button" class="ml-2 btn btn-danger" @click="deleteHangHoa">Xóa</button> </div>
      </div> 
       
     </Form>

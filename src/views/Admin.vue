@@ -126,12 +126,14 @@
     },
     mounted() {
         this.getDoanhThu();
+     //   this.$store.commit('setSessionUser', null);
+     //   this.$store.commit('setSessionAdmin', null);
            
     }
    
   };
   </script>
-  <style scoped>
+<style scoped>
 .main-trangchu{
     margin-bottom: 24.5rem;
 }
