@@ -31,7 +31,7 @@
             </button>
             <button
                 class="btn btn-sm btn-danger col-2 m-3"
-                @click="removeAllContacts"
+                @click="removeAllhanghoa"
                 >
                 <i class="fas fa-trash"></i> Xóa tất cả
             </button>
@@ -164,7 +164,7 @@
         },
         async removeAllhanghoa() {
                 // xoá tất cả liên hệ
-                if (confirm("Bạn muốn xóa tất cả Liên hệ?")) {
+                if (confirm("Bạn muốn xóa tất cả hàng hoá?")) {
                     try {
                         await hanghoaService.deleteAll();
                         this.refreshList();

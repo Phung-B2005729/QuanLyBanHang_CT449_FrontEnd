@@ -103,7 +103,7 @@ export default {
 <style scoped>
 /* Scoped styles for the component */
 .active {
-  background-color: #8eb9be;  /* Change this to the desired color */
+  background-color: #8eb9be !important; /* Change this to the desired color */
 }
 .table tr {
     cursor: pointer;

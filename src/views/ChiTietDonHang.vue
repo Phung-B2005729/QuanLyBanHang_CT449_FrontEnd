@@ -13,7 +13,7 @@
         </div>
   <div class="row thongtinsanpham">    
     <div class="col-8 mt-3 ">
-          <div class="shadow mb-2 p-3 rounded">
+          <div class="shadow mb-2 p-3 bg-body rounded">
             <div class="col-md-12 text-success">
                             <h5> <span><i class="fa-solid fa-cart-shopping"></i></span> Thông tin Sản Phẩm Đặt Hàng</h5>
                             <hr>
@@ -31,7 +31,7 @@
                         <tbody v-for="chitietdonhang in this.listspdonhang" :key="chitietdonhang._id">
                             <tr>
                                 <td class=" pt-3">
-                                    <div class="col-6 p-0">
+                                    <div class="col-6 p-0 text-center">
                                         <img v-if="chitietdonhang.linkanh" :src="chitietdonhang.linkanh" alt="loi"
                                             style="height: 5rem;width: 5rem; object-fit: cover">
                                     </div>
@@ -266,4 +266,7 @@ async created() {
   align-items: center;
   margin-top: -0.7rem;
   }
+.table td ,img {
+  text-align: center;
+}
 </style>

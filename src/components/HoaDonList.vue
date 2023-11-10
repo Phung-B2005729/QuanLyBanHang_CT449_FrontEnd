@@ -1,66 +1,72 @@
 <template>
     <div>
-                    <table class="table ">
+        <table class="table ">
                         <thead>
                             <tr>
+                              <th scope="col">Khách đặt hàng</th>
                                 <th scope="col">Ngày đặt</th>
                                 <th scope="col">Ngày Giao</th>
                                 <th scope="col">Tổng Tiền</th>
                                 <th scope="col">Tình trạng</th>
-                               <th></th>
                             </tr>
                         </thead>
-                        <tbody >
-                            <tr  v-for="(dathang, index) in paginatedList" :key="dathang._id" :class="{ active: (((this.currentPage - 1) * this.itemsPerPage)+index)  === activeIndex }" @click="updateActiveIndex(index)">
-                                <td class=" pt-3">
+                        <tbody>
+                          <tr v-for="(dathang, index) in paginatedList" :key="dathang._id" :class="{ active: (((this.currentPage - 1) * this.itemsPerPage) + index) === activeIndex }" @click="updateActiveIndex(index)">
+                            <td class=" pt-3" style="background-color: #8eb9be" v-if="(((this.currentPage - 1) * this.itemsPerPage)+index) == activeIndex">
+                                    <div class="col p-0">
+                                      {{dathang.tenkhachhang}}
+                                    </div>
+                                </td>
+                                <td class=" pt-3" v-else>
+                                    <div class="col p-0">
+                                      {{dathang.tenkhachhang}}
+                                    </div>
+                                </td>    
+                            <td class=" pt-3" style="background-color: #8eb9be" v-if="(((this.currentPage - 1) * this.itemsPerPage)+index) == activeIndex">
                                     <div class="col p-0">
                                       {{dathang.ngaydat}}
                                     </div>
                                 </td>
-                                <td class="pt-3" v-if="dathang.tinhtrang=='Chờ xác nhận'"> 
-                                  <div class="col">
-                                    {{dathang.ngaygiao}} (Dự Kiến)
+                                <td class=" pt-3" v-else>
+                                    <div class="col p-0">
+                                      {{dathang.ngaydat}}
+                                    </div>
+                                </td>
+                                <td class="pt-3"  v-if="(((this.currentPage - 1) * this.itemsPerPage)+index) == activeIndex" style="background-color: #8eb9be"> 
+                                  <div class="col" v-if="dathang.tinhtrang=='Chờ xác nhận'">
+                                    {{dathang.ngaygiao}} <br/> (Dự Kiến)
+                                  </div>
+                                  <div class="col" v-else>
+                                    {{dathang.ngaygiao}}
                                   </div>
                                 </td>
-                                <td class="pt-3" v-else> 
-                                  <div class="col">
+                                <td class="pt-3" v-else > 
+                                  <div class="col" v-if="dathang.tinhtrang=='Chờ xác nhận'">
+                                    {{dathang.ngaygiao}} <br/> (Dự Kiến)
+                                  </div>
+                                  <div class="col" v-else>
                                     {{dathang.ngaygiao}}
                                   </div>
                                 </td>
                                 <!-- tang giam sl -->
-                                <td class="pt-3">
+                                <td class="pt-3" v-if="(((this.currentPage - 1) * this.itemsPerPage)+index) == activeIndex" style="background-color: #8eb9be">
                                   {{formattedGia(dathang.tongtien)}}
-                                  
+                                </td>
+                                <td class="pt-3" v-else>
+                                  {{formattedGia(dathang.tongtien)}}
                                 </td>
                                 <!-- tong tien -->
-                                <td class=" pt-3">
+                                <td class=" pt-3 text-danger" v-if="(((this.currentPage - 1) * this.itemsPerPage)+index) == activeIndex && dathang.tinhtrang=='Đã huỷ'" style="background-color: #8eb9be">
                                   {{dathang.tinhtrang}}
                                 </td>
-                                <td class="pt-3">
-                                 <!--Chờ xác nhận thì cho huỷ-->
-                                    <div v-if="dathang.tinhtrang == 'Chờ xác nhận'">
-                                     
-                                                         <i class="fa-solid fa-trash icon-xoa" data-bs-toggle="modal" data-bs-target="#delete-confirm1"></i>
-                                        <div class="modal fade" id="delete-confirm1" tabindex="-1" aria-labelledby="delete-confirm1Label" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-body">
-                                                                <h5><b>Bạn có chắc muốn huỷ đơn này?</b></h5>
-                                                                      </div>
-                                                            <div class="modal-footer">
-                                                  <a type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</a>
-                                                 <!--xử lý xoá-->
-                                                  <button  class="btn btn-xs btn-danger" data-bs-dismiss="modal" @click="deleteDatHang(dathang)">Delete</button>
-                                                 
-                                                </div>
-                                            </div>
-                                            </div>
-                                        </div>
-                                      
-                
-                                    </div>
-                                    <!--Còn lại thì không cho huỷ-->
-                                    <i v-else class="fa-solid fa-trash icon-xoa-disable"></i>
+                                <td class=" pt-3" v-else-if="(((this.currentPage - 1) * this.itemsPerPage)+index) == activeIndex && dathang.tinhtrang!='Đã huỷ'" style="background-color: #8eb9be">
+                                  {{dathang.tinhtrang}}
+                                </td>
+                                <td class=" pt-3" v-else-if="dathang.tinhtrang!='Đã huỷ'">
+                                  {{dathang.tinhtrang}}
+                                </td>
+                                <td class=" pt-3 text-danger" v-else-if="dathang.tinhtrang=='Đã huỷ'">
+                                  {{dathang.tinhtrang}}
                                 </td>
                             </tr>
                         </tbody>
@@ -138,12 +144,13 @@
     },
   };
   </script>
-  <style scoped>
+  <style>
   /* Scoped styles for the component */
-  .active {
-    background-color: #8eb9be;  /* Change this to the desired color */
-  }
   .table tr {
       cursor: pointer;
   }
+  .table .active {
+    background-color: #8eb9be !important;
+}
+
   </style>

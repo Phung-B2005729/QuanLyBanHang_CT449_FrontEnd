@@ -11,14 +11,13 @@
       <div class="col-4 mt-3 donhang">
         <div class="shadow p-3 rounded bg-body">
           <div class="col-md-12 text-success">
-                          <h5> <span><i class="fa-solid fa-cart-shopping"></i></span> Danh Sách Sản Phẩm</h5>
+                          <h5> <span> <i class="fa fa-shipping-fast  "></i></span> {{this.tieude}}</h5>
                           <hr>
                       </div>
                       <HoaDonList
                           v-if="filteredDatHangCount > 0"
                           :listdathang="filteredDatHang"
                           v-model:activeIndex="activeIndex"
-                          @delete:DatHang="deleteDatHang"
                           />
                           <p v-else>Không có sản phẩm nào</p>
               </div>
@@ -28,7 +27,7 @@
           </button>
           <button
               class="btn btn-sm btn-danger col-2 m-3"
-              @click="removeAllContacts"
+              @click="removeAllDatHang" v-if="this.xoatatca"
               >
               <i class="fas fa-trash"></i> Xóa tất cả
           </button>
@@ -39,24 +38,17 @@
             <div>
               <div class="shadow mb-3 bg-body rounded"  v-if="activeDatHang">
                   <div class="row ">
-                      <div class="row p-3 text-success text-left">
-                          <h3 class="col-4 ml-2">Chi tiết hoá đơn</h3>
-                          <div class="hieuchinh col-md-5 text-success">
-                       <!-- <router-link id="route-link" style="text-decoration: none; color: #2b7778;"
-                                :to="{ name: 'editsanpham', params: { id: activeHangHoa._id } }"
-                                >
-                            <i class="fas fa-edit"></i> Hiệu chỉnh
-                        </router-link> -->
-                        <button class="btn btn-sm btn-primary col-md-4" >
-                            Xác nhận đơn
-                        </button>
-                     </div> 
-                  <hr>
-                      </div>
-                      <div class="col-md-12">
-                          <HoaDonCard :dondathang="activeDatHang" />
-                      </div>
-                  
+                      
+                          <HoaDonCard :dondathang="activeDatHang"
+                          :xacnhan="xacnhan"
+                          :huydon="huydon"
+                          :capnhat="capnhat"
+                          :xoa="xoa"
+                          :idadmin="session_admin.token.id"
+                          @updatehoadon="updateHoaDon"
+                          @deletehoadon="deleteHoaDon"
+                          />
+                     
                
                   </div>
               </div>
@@ -77,8 +69,11 @@ import AppHeaderAdmin from "@/components/AppHeaderAdmin.vue";
 import AppFooterAdmin from "@/components/AppFooterAdmin.vue";
 import HoaDonList from "@/components/HoaDonList.vue";
 import dathangService from "@/services/dathang.service";
+import chitietdathangService from "@/services/chitietdathang.service";
 import InputSearchAdmin from "@/components/InputSearchAdmin.vue";
 import HoaDonCard from "../components/HoaDonCard.vue";
+import khachhangService from "@/services/khachhang.service";
+import nhanvienService from "@/services/nhanvien.service";
 export default {
   components: {
     AppHeaderAdmin,
@@ -93,11 +88,24 @@ export default {
             listdathang: [],
             activeIndex: -1,  // vị trí liên hệ đang được chọn
             searchText: "",
+            xacnhan: false,
+            huydon: false,
+            capnhat: false,
+            xoa: false,
+            tieude:'',
+            xoatatca:false,
           };
       },
       watch: {
           // Giám sát các thay đổi của biến searchText.
           // Bỏ chọn phần tử đang được chọn trong danh sách.
+          '$route.query.tinhtrang'(newTinhtrang, oldTinhtrang) {
+              // Kiểm tra xem giá trị mới có khác giá trị cũ không
+              if (newTinhtrang !== oldTinhtrang) {
+                // Gọi phương thức để cập nhật danh sách hóa đơn
+                this.refreshList();
+              }
+            },
           searchText() {
             this.activeIndex = -1;
           },
@@ -106,8 +114,8 @@ export default {
           // Chuyển các đối tượng  thành chuỗi để tiện cho tìm kiếm.
           DatHangtrings() {
         return this.listdathang.map((sanpham) => {
-            const { ngaydat, ngaygiao, tinhtrang, tongtien, diachigiao } = sanpham;
-            return [ngaydat, ngaygiao, tinhtrang, tongtien, diachigiao].join("");
+            const { ngaydat, ngaygiao, tinhtrang, tongtien, diachigiao,idkhachhang,tenkhachhang,sdt } = sanpham;
+            return [ngaydat, ngaygiao, tinhtrang, tongtien, diachigiao,idkhachhang,tenkhachhang,sdt].join("");
         });
     },
     filteredDatHang() {
@@ -128,38 +136,64 @@ export default {
           },
       methods: {
         async getSPdathang(){
-        try{
+          this.xacnhan=false;
+          this.huydon=false;
+          this.capnhat=false;
+          this.xoa=false;
+          this.xoatatca=false;
+      try{
            const tinhtrang = this.$route.query.tinhtrang;
            const listtam = await dathangService.getAll();
       if(tinhtrang=='Chờ xác nhận'){
         this.listdathang = listtam.filter(item => item.tinhtrang === 'Chờ xác nhận');
+        this.xacnhan=true;
+        this.huydon=true;
+        this.tieude="Đơn Hàng Mới"
       }
-      else if(tinhtrang=='Đang Giao'){
+      else if(tinhtrang=='Đang giao'){
         this.listdathang =  listtam.filter(item => item.tinhtrang === 'Đang giao' || item.tinhtrang === 'Đã xác nhận');
+        this.capnhat=true;
+        this.tieude="Cập Nhật Đơn Hàng"
       }
-      else if(tinhtrang=='Đã huỷ'){
+      else if(tinhtrang=='Đã nhận hàng'){
         this.listdathang =  listtam.filter(item => item.tinhtrang === 'Đã nhận hàng' || item.tinhtrang === 'Đã huỷ');
+        this.xoa=true;
+        this.tieude="Danh Sách Đơn Hàng"
+        this.xoatatca=true;
       }
       else{
         this.listdathang = listtam;
       }
+      this.listdathang.forEach(async (donhang)=>{
+        const user = await khachhangService.getById(donhang.idkhachhang);
+        if(donhang.idnhanvien!=null && donhang.idnhanvien!=''){
+        const nhanvien = await nhanvienService.getById(donhang.idnhanvien);
+        if(nhanvien){
+          donhang.tennhanvien = nhanvien.hoten;
+        }
+      }
+        if(user){
+          donhang.tenkhachhang = user.hoten;
+          donhang.sdt = user.sdt;
+        }
+        else{
+          donhang.tenkhachhang = '';
+          donhang.sdt = '';
+        }
+       
+      });
       }catch(e){
         console.log(e);
         alert('Lỗi' + e.response.status);
     }
     },
-    async huyDon (iddathang){
+    async updateHoaDon (hoadon){
       try{
-        const data = {
-          tinhtrang: 'Đã huỷ'
-        }
-        console.log('Gọi huỷ đơn');
-         const resu = await dathangService.update(iddathang,data);
-         this.getSPdathang();
-         this.$router.push({   name: 'QuanLyDonHang',
-                query: {tinhtrang: this.$route.query.tinhtrang} });
-         
-        
+        //gọi update
+        const resu = await dathangService.update(hoadon._id, hoadon);
+        alert("Cập nhật thành công");
+        this.refreshList();
+    
       }catch(e){
         console.log(e);
         alert('Lỗi' + e.response.status);
@@ -174,9 +208,13 @@ export default {
       },
       async removeAllDatHang() {
               // xoá tất cả liên hệ
-              if (confirm("Bạn muốn xóa tất cả Liên hệ?")) {
+              if (confirm("Bạn muốn xóa tất cả đơn hàng đã hoàn thành?")) {
                   try {
-                      await dathangService.deleteAll();
+                     this.listdathang.forEach(async (dathang)=> {
+                      await dathangService.delete(dathang._id);
+                      await chitietdathangService.deleteALLIdDatHang(dathang._id);
+                    });
+                     alert("Xoá thành công");
                       this.refreshList();
                   } catch (error) {
                       console.log(error);
@@ -186,12 +224,12 @@ export default {
       goToAddDatHang() {
              this.$router.push({ name: "addsanpham" }); 
           },
-      async deleteDatHang(DatHang) {  // ham cho phuong thuc delete
+      async deleteHoaDon(HoaDon) {  // ham cho phuong thuc delete
                   try {
-                     
-                      await dathangService.delete(DatHang._id);
-                      await hinhanhService.deleteHinhAnhSanPham(DatHang._id);
-                     
+                     console.log('gọi xoá  ' + HoaDon._id);
+                      await dathangService.delete(HoaDon._id);
+                      await chitietdathangService.deleteALLIdDatHang(HoaDon._id);
+                      alert("Đã xoá thành công");
                       this.refreshList();
                   } catch (error) {
                       console.log(error);
