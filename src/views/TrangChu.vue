@@ -264,9 +264,9 @@ export default {
   async created() {
       this.getALLLoaiHang();
     this.getALLSanPham();
-    // this.$store.commit('setSessionUser', null);
-      //  this.$store.commit('setSessionAdmin', null);
     
+    // this.$store.commit('setSessionUser', null);
+    //  this.$store.commit('setSessionAdmin', null);
   },
 };
 </script>

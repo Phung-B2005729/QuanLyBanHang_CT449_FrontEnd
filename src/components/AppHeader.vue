@@ -79,7 +79,7 @@
         Đăng Ký
         </router-link>
         </li>
-        <li class="nav-item" v-if="session_user!=null && session_user.id!=null">
+        <li class="nav-item" v-if="this.user!=null &&this.session_user && this.session_user.id!=null">
           <router-link 
             :to="{
                 name: 'DonHang',
@@ -97,7 +97,7 @@
     <InputSearch></InputSearch>
    </div> 
    
-    <router-link v-if="session_user!=null && session_user.id!=null"
+    <router-link v-if="this.session_user && this.session_user.id!=null && this.user!=null"
             :to="{
                 name: 'GioHang',
                 query: { id: session_user.id }
@@ -217,8 +217,9 @@ export default {
                 try {
                     // lấy danh sách các loại hàng
                   this.user = await khachhangService.getById(this.session_user.id);
-                  if(this.user==null){
-                    this.logout();
+                  if(this.user==null){  // thông tin khách hàng đã bị xoá;
+                    this.$store.commit('setSessionUser', null);
+                    this.$router.push({ path: "/" });
                   }
                  
                 } catch (error) {
@@ -238,8 +239,7 @@ export default {
 },
   mounted(){
         this.getUser();
-            this.getALLLoaiHang(); // gọi khi trang vừa được load
-            
+        this.getALLLoaiHang(); // gọi khi trang vừa được load
             }
       }
 </script>

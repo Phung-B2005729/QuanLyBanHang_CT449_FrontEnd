@@ -60,7 +60,7 @@ import EditNhanVien from  '@/views/EditNhanVien.vue';
           next();
         } else {
           // chưa đăng nhập, cho phép truy cập trang đăng nhập
-          next("/");
+          next("/dangnhap");
         }
       },
 
@@ -77,7 +77,7 @@ import EditNhanVien from  '@/views/EditNhanVien.vue';
         next();
       } else {
         // chưa đăng nhập, cho phép truy cập trang đăng nhập
-        next("/");
+        next("/dangnhap");
       }
     },
 }, 
@@ -94,7 +94,7 @@ import EditNhanVien from  '@/views/EditNhanVien.vue';
         next();
       } else {
         // chưa đăng nhập, cho phép truy cập trang đăng nhập
-        next("/");
+        next("/dangnhap");
       }
     },
 }, 
@@ -110,7 +110,7 @@ import EditNhanVien from  '@/views/EditNhanVien.vue';
         next();
       } else {
         // chưa đăng nhập, cho phép truy cập trang đăng nhập
-        next("/");
+        next("/dangnhap");
       }
     },
 
@@ -128,7 +128,7 @@ import EditNhanVien from  '@/views/EditNhanVien.vue';
         next();
       } else {
         // chưa đăng nhập, cho phép truy cập trang đăng nhập
-        next("/");
+        next("/dangnhap");
       }
     },
 
@@ -283,15 +283,10 @@ import EditNhanVien from  '@/views/EditNhanVien.vue';
       component: AdminDangNhap,
     },
     {
-      path: "/notfound",
+      path: "/:pathMatch(.*)*",
       name: "notfound",
       component: () => import("@/views/NotFound.vue"),
-    },
-    {
-      path: "/notfoundadmin",
-      name: "notfoundadmin",
-      component: () => import("@/views/NotFoundAdmin.vue"),
-    },
+  },
 
     ];
     const router = createRouter({

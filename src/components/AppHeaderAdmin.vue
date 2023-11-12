@@ -10,13 +10,13 @@
       <button class="navbar-toggler icon-tab" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse col-6" id="navbarSupportedContent">
+      <div class="collapse navbar-collapse col-6" id="navbarSupportedContent" v-if="session_admin!=null && this.admin!=null">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
+        <li class="nav-item" >
           <router-link :to="{ name: 'admin' }" class="nav-link">Trang Chủ
           </router-link>
           </li>
-          <li class="nav-item" v-if="session_admin!=null">
+          <li class="nav-item" v-if="session_admin!=null && this.admin!=null">
             <router-link 
               :to="{
                   name: 'DanhSachSanPham',
@@ -115,7 +115,7 @@
         </ul>
       </div>
 
-     <ul class="navbar-nav" id="nguoidung" v-if="this.admin">
+     <ul class="navbar-nav" id="nguoidung" v-if="this.admin && session_admin!=null">
           <li class="nav-item dropdown danhsachnguoidung">
           <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="dropdownMenuButton1" aria-expanded="false">
           Amin
@@ -186,7 +186,11 @@
                   try {
                       // lấy danh sách admin
                     this.admin = await nhanvienService.getById(this.session_admin.id);  
-                    
+                    if(this.admin==null){
+                      this.$store.commit('setSessionAdmin', null);
+                      this.admin=null;
+                      this.$router.push({ path: "/admin/dangnhap" });
+                    }
                   } catch (error) {
                       console.log(error);
                   }

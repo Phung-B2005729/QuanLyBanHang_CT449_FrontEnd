@@ -126,9 +126,9 @@
     },
     mounted() {
         this.getDoanhThu();
-      // this.$store.commit('setSessionUser', null);
-      //  this.$store.commit('setSessionAdmin', null);
-           
+       
+           // this.$store.commit('setSessionUser', null);
+       // this.$store.commit('setSessionAdmin', null);
     }
    
   };
