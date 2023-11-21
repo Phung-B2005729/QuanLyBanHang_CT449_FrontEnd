@@ -27,6 +27,17 @@
         Danh sách sản phẩm
           </router-link>
           </li>
+          <li class="nav-item" v-if="session_admin!=null && this.admin!=null">
+            <router-link 
+              :to="{
+                  name: 'DanhSachLoaiHang',
+                  
+              }"
+             class="nav-link"
+          >
+        Danh sách loại hàng
+          </router-link>
+          </li>
           <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="dropdownMenuButton2" aria-expanded="false">
            Danh sách người dùng

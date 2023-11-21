@@ -105,6 +105,12 @@ export default {
               }
           },
       },
+      beforeMount(){
+        if(this.session_admin!=null && (this.session_admin.quyen==0 || this.session_admin.quyen==2 || this.session_admin.quyen==3)){
+          alert('Bạn không có quyền truy cập vào quản lý nhân viên của cửa hàng');
+          this.$router.push({ path: "/admin" });
+        }
+      },
     
       created() {
           this.getnguoidung();

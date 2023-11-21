@@ -11,17 +11,18 @@
             </td>
             <td>
               <div>                   
-              <i class="fa-solid fa-trash icon-xoa" data-bs-toggle="modal" data-bs-target="#delete-confirm1"></i>
-                      <div class="modal fade" id="delete-confirm1" tabindex="-1" aria-labelledby="delete-confirm1Label" aria-hidden="true">
+                <i class="fa-solid fa-trash icon-xoa" data-bs-toggle="modal" :data-bs-target="'#delete-confirm1-' + index"></i>
+                      <div class="modal fade" :id="'delete-confirm1-' + index" tabindex="-1" aria-labelledby="delete-confirm1Label" aria-hidden="true">
                           <div class="modal-dialog">
                                       <div class="modal-content">
                                           <div class="modal-body">
                                               <h5><b>Bạn có chắc muốn xoá thông tin của nhân viên này?</b></h5>
                                                     </div>
                                           <div class="modal-footer">
+                                            <button  class="btn btn-xs btn-danger" data-bs-dismiss="modal" @click="deletenguoidung(nguoidung)">Delete</button>
                                 <a type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</a>
                                <!--xử lý xoá-->
-                                <button  class="btn btn-xs btn-danger" data-bs-dismiss="modal" @click="deletenguoidung(nguoidung)">Delete</button>
+                               
                                
                               </div>
                           </div>

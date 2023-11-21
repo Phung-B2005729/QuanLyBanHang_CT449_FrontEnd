@@ -50,7 +50,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">Sản phẩm</th>
-                                <th scope="col">Tên</th>
+                                <th scope="col tensp">Tên</th>
                                 <th scope="col">Đơn Giá</th>
                                 <th scope="col">Số Lượng</th>
                                 <th scope="col">Thành Tiền</th>
@@ -66,7 +66,7 @@
                                             style="height: 5rem;width: 5rem; object-fit: cover">
                                     </div>
                                 </td>
-                                <td class="pt-3"> 
+                                <td class="pt-3 tensp"> 
                                   <div class="col">
                                     {{giohang.tenhh}}
                                   </div>
@@ -289,7 +289,7 @@ import { RouterLink } from "vue-router";
    
   };
   </script>
-  <style>
+  <style scoped>
 .text-error{
     color: rgb(215, 78, 78);
 }
@@ -310,8 +310,9 @@ import { RouterLink } from "vue-router";
   margin-bottom: 1rem;
 }
 #tablegiohang td, img{
-  text-align: left;
+  text-align: center;
 }
+
 .table_thanhtoan{
   padding-top: 1rem;
   background-color: white;
@@ -322,6 +323,10 @@ import { RouterLink } from "vue-router";
 }
 .cart {
   font-size: 2.5rem;
+}
+#tablegiohang td.tensp, th.tensp{
+  text-align: left;
+  margin-left: 5px;
 }
 </style>
 

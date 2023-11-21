@@ -21,6 +21,7 @@ import AddSanPham from  '@/views/AddSanPham.vue';
 import EditSanPham from  '@/views/EditSanPham.vue';
 import AddNhanVien from  '@/views/AddNhanVien.vue';
 import EditNhanVien from  '@/views/EditNhanVien.vue';
+import DanhSachLoaiHang from '@/views/DanhSachLoaiHang.vue';
     const routes = [
         {
             path: "/",
@@ -169,6 +170,7 @@ import EditNhanVien from  '@/views/EditNhanVien.vue';
               },
             
         },
+        // admin
         {
           path: "/admin",
           name: "admin",
@@ -185,6 +187,7 @@ import EditNhanVien from  '@/views/EditNhanVien.vue';
               }
             }, // trang hiển thị
       },
+      // đơn hàng
       {
         path: "/quanlydonhang",
         name: "QuanLyDonHang",
@@ -201,22 +204,7 @@ import EditNhanVien from  '@/views/EditNhanVien.vue';
             }
           }, // trang hiển thị
     },
-    {
-      path: "/danhsachsanpham",
-      name: "DanhSachSanPham",
-      component: DanhSachSanPham,
-      beforeEnter: (to, from, next) => {
-          // Kiểm tra xem người dùng đã đăng nhập thành công chưa
-          const sessionAdmin = store.state.session_admin;
-          if (sessionAdmin) {
-            // Đã đăng nhập, chuyển hướng đến trang chính
-            next();
-          } else {
-            // Chưa đăng nhập, cho phép truy cập trang đăng nhập
-            next('/admin/dangnhap');
-          }
-        }, // trang hiển thị
-  },
+   // ds khách hàng
   {
     path: "/danhsachkhachhang",
     name: "DanhSachKhachHang",
@@ -233,6 +221,61 @@ import EditNhanVien from  '@/views/EditNhanVien.vue';
         }
       }, // trang hiển thị
 },
+   
+    // sản phẩm
+    {
+      path: "/danhsachsanpham",
+      name: "DanhSachSanPham",
+      component: DanhSachSanPham,
+      beforeEnter: (to, from, next) => {
+          // Kiểm tra xem người dùng đã đăng nhập thành công chưa
+          const sessionAdmin = store.state.session_admin;
+          if (sessionAdmin) {
+            // Đã đăng nhập, chuyển hướng đến trang chính
+            next();
+          } else {
+            // Chưa đăng nhập, cho phép truy cập trang đăng nhập
+            next('/admin/dangnhap');
+          }
+        }, // trang hiển thị
+  },
+    {
+      path: "/editsanpham/:id",
+      name: "editsanpham",
+      component: EditSanPham, // trang hiển thị
+      beforeEnter: (to, from, next) => {
+        // Kiểm tra xem người dùng đã đăng nhập thành công chưa
+        const sessionAdmin = store.state.session_admin;
+        if (sessionAdmin) {
+          // Đã đăng nhập, chuyển hướng đến trang chính
+          next();
+        } else {
+          // Chưa đăng nhập, cho phép truy cập trang đăng nhập
+          next('/admin/dangnhap');
+        }
+      }, // trang hiển thị
+
+  },
+
+  {
+    path: "/addsanpham",
+    name: "addsanpham",
+    component: AddSanPham, // trang hiển thị
+    beforeEnter: (to, from, next) => {
+      // Kiểm tra xem người dùng đã đăng nhập thành công chưa
+      const sessionAdmin = store.state.session_admin;
+      if (sessionAdmin) {
+        // Đã đăng nhập, chuyển hướng đến trang chính
+        next();
+      } else {
+        // Chưa đăng nhập, cho phép truy cập trang đăng nhập
+        next('/admin/dangnhap');
+      }
+    }, // trang hiển thị
+    
+
+    },
+    // nhân viên
     {
       path: "/danhsachnhanvien",
       name: "DanhSachNhanVien",
@@ -250,23 +293,20 @@ import EditNhanVien from  '@/views/EditNhanVien.vue';
         }, // trang hiển thị
     },
     {
-      path: "/editsanpham/:id",
-      name: "editsanpham",
-      component: EditSanPham, // trang hiển thị
-      
-
-  },
-  {
-    path: "/addsanpham",
-    name: "addsanpham",
-    component: AddSanPham, // trang hiển thị
-    
-
-    },
-    {
       path: "/editnhanvien/:id",
       name: "editnhanvien",
       component: EditNhanVien, // trang hiển thị
+      beforeEnter: (to, from, next) => {
+        // Kiểm tra xem người dùng đã đăng nhập thành công chưa
+        const sessionAdmin = store.state.session_admin;
+        if (sessionAdmin) {
+          // Đã đăng nhập, chuyển hướng đến trang chính
+          next();
+        } else {
+          // Chưa đăng nhập, cho phép truy cập trang đăng nhập
+          next('/admin/dangnhap');
+        }
+      }, // trang hiển thị
       
 
     },
@@ -274,9 +314,43 @@ import EditNhanVien from  '@/views/EditNhanVien.vue';
     path: "/addnhanvien",
     name: "addnhanvien",
     component: AddNhanVien, // trang hiển thị
+    beforeEnter: (to, from, next) => {
+      // Kiểm tra xem người dùng đã đăng nhập thành công chưa
+      const sessionAdmin = store.state.session_admin;
+      if (sessionAdmin) {
+        // Đã đăng nhập, chuyển hướng đến trang chính
+        next();
+      } else {
+        // Chưa đăng nhập, cho phép truy cập trang đăng nhập
+        next('/admin/dangnhap');
+      }
+    }, // trang hiển thị
 
 
     },
+    // loại hàng
+   
+
+ 
+  {
+    path: "/danhsachloaihang",
+    name: "DanhSachLoaiHang",
+    component: DanhSachLoaiHang, // trang hiển thị
+    beforeEnter: (to, from, next) => {
+      // Kiểm tra xem người dùng đã đăng nhập thành công chưa
+      const sessionAdmin = store.state.session_admin;
+      if (sessionAdmin) {
+        // Đã đăng nhập, chuyển hướng đến trang chính
+        next();
+      } else {
+        // Chưa đăng nhập, cho phép truy cập trang đăng nhập
+        next('/admin/dangnhap');
+      }
+    }, // trang hiển thị
+    
+  
+  },
+  //
     {
       path: "/admin/dangnhap",
       name: "AminDangNhap",

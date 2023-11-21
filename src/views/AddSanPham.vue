@@ -71,6 +71,12 @@
             },
             
         },
+        beforeMount(){
+        if(this.session_admin!=null && (this.session_admin.quyen==0 || this.session_admin.quyen==4 || this.session_admin.quyen==3)){
+          alert('Bạn không có quyền truy cập vào quản lý sản phẩm của cửa hàng');
+          this.$router.push({ path: "/danhsachsanpham" });
+        }
+      },
   };
   </script>
 <style>

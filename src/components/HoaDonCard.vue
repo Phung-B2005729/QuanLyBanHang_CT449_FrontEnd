@@ -23,9 +23,10 @@
                                                                 <h5><b>Bạn có chắc muốn huỷ đơn này?</b></h5>
                                                                       </div>
                                                             <div class="modal-footer">
+                                                              <button  class="btn btn-xs btn-danger" data-bs-dismiss="modal" @click="updateHoaDon('Đã huỷ')">OK</button>
                                                   <a type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</a>
                                                  <!--xử lý xoá-->
-                                                  <button  class="btn btn-xs btn-danger" data-bs-dismiss="modal" @click="updateHoaDon('Đã huỷ')">OK</button>
+                                                
                                                  
                                                 </div>
                                             </div>
@@ -41,9 +42,10 @@
                                                                 <h5><b>Bạn có chắc muốn xoá đơn này?</b></h5>
                                                                       </div>
                                                             <div class="modal-footer">
+                                                              <button  class="btn btn-xs btn-danger" data-bs-dismiss="modal" @click="deleteHoaDon()">Delete</button>
                                                   <a type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</a>
                                                  <!--xử lý xoá-->
-                                                  <button  class="btn btn-xs btn-danger" data-bs-dismiss="modal" @click="deleteHoaDon()">Delete</button>
+                                                  
                                                  
                                                 </div>
                                             </div>
@@ -161,7 +163,7 @@
                           </b>
                        
                          <select 
-                            name="loaiHangHoa"
+                            name="tinhtrang"
                             class="col-4"
                             v-model="this.dondathang.tinhtrang"
                             

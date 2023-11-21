@@ -94,8 +94,8 @@ export default {
       computed: {
           // Chuyển các đối tượng  thành chuỗi để tiện cho tìm kiếm.
           nhanvientrings() {
-              return this.listnhanvien.map((sanpham) => {
-                   const { hoten, chucvu, diachi, sdt } = sanpham;
+              return this.listnhanvien.map((nhanvien) => {
+                   const { hoten, chucvu, diachi, sdt } = nhanvien;
                   return [hoten, chucvu, diachi, sdt].join("");
               });
           },
@@ -194,6 +194,12 @@ export default {
       mounted() {
               this.refreshList(); // gọi làm mới danh sách khi trang được tải
           },
+      beforeMount(){
+        if(this.session_admin!=null && (this.session_admin.quyen==0 || this.session_admin.quyen==2 || this.session_admin.quyen==3)){
+          alert('Bạn không có quyền truy cập vào quản lý nhân viên của cửa hàng');
+          this.$router.push({ path: "/admin" });
+        }
+      }
   };
 </script>
 <style scoped>

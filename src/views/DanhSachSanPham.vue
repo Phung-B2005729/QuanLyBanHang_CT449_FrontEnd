@@ -19,6 +19,7 @@
                             :listhanghoa="filteredhanghoa"
                             v-model:activeIndex="activeIndex"
                             @delete:hanghoa="deleteHangHoa"
+                            :quyen="this.session_admin.quyen"
                             />
                             <p v-else>Không có sản phẩm nào</p>
                 </div>
@@ -163,6 +164,7 @@
                 this.activeIndex = -1;
         },
         async removeAllhanghoa() {
+          if(this.session_admin.quyen==1 || this.session_admin.quyen==2){
                 // xoá tất cả liên hệ
                 if (confirm("Bạn muốn xóa tất cả hàng hoá?")) {
                     try {
@@ -172,8 +174,12 @@
                         console.log(error);
                     }
                 }
+              }else{
+                alert("Bạn không có quyền xoá các sản phẩm của cửa hàng");
+              }
             },
         goToAddHangHoa() {
+          
                this.$router.push({ name: "addsanpham" }); 
             },
         async deleteHangHoa(hanghoa) {  // ham cho phuong thuc delete
@@ -191,6 +197,7 @@
         },
         mounted() {
                 this.refreshList(); // gọi làm mới danh sách khi trang được tải
+                //alert(this.session_admin.quyen);
             },
     };
 </script>

@@ -68,7 +68,7 @@
                                 </td>
                                 <td class="pt-3" v-if="dathang.tinhtrang=='Chờ xác nhận'"> 
                                   <div class="col">
-                                    {{dathang.ngaygiao}} (Dự Kiến)
+                                    {{dathang.ngaygiao}} <br/> (Dự Kiến)
                                   </div>
                                 </td>
                                 <td class="pt-3" v-else> 
@@ -101,9 +101,9 @@
                                 </td>
                                 <td class="pt-3">
                                  <!--Chờ xác nhận thì cho huỷ-->
-                                    <div v-if="dathang.tinhtrang == 'Chờ xác nhận'">
+                                <div v-if="dathang.tinhtrang == 'Chờ xác nhận'">
                                      
-                                                         <i class="fa-solid fa-trash icon-xoa" data-bs-toggle="modal" data-bs-target="#delete-confirm1"></i>
+                                  <i class="fa-solid fa-trash icon-xoa" data-bs-toggle="modal" data-bs-target="#delete-confirm1"></i>
                                         <div class="modal fade" id="delete-confirm1" tabindex="-1" aria-labelledby="delete-confirm1Label" aria-hidden="true">
                                             <div class="modal-dialog">
                                                         <div class="modal-content">
@@ -111,9 +111,10 @@
                                                                 <h5><b>Bạn có chắc muốn huỷ đơn này?</b></h5>
                                                                       </div>
                                                             <div class="modal-footer">
+                                                               <button  class="btn btn-xs btn-danger" data-bs-dismiss="modal" @click="huyDon(dathang._id)">Delete</button>
                                                   <a type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</a>
                                                  <!--xử lý xoá-->
-                                                  <button  class="btn btn-xs btn-danger" data-bs-dismiss="modal" @click="huyDon(dathang._id)">Delete</button>
+                                                 
                                                  
                                                 </div>
                                             </div>
@@ -142,7 +143,8 @@
   import AppHeader from "@/components/AppHeader.vue";
   import AppFooter from "@/components/AppFooter.vue";
   import dathangService from "@/services/dathang.service";
-  
+  import hanghoaService from "@/services/hanghoa.service";
+  import chitietdathangService from "@/services/chitietdathang.service";
   export default {
     components: {
       AppHeader,
@@ -173,8 +175,30 @@
           tinhtrang: 'Đã huỷ'
         }
         console.log('Gọi huỷ đơn');
+        // khách huỷ đơn khi hàng chưa đóng gói thì sản phẩm sẽ được tự cập nhật
          const resu = await dathangService.update(iddathang,data);
-         
+         //danh sach chi tiet don hang
+        const listspdonhang =  await chitietdathangService.getALLIdDatHang(iddathang);
+        if(listspdonhang){ // tồn tại sản phẩm trong đặt hàng
+        listspdonhang.forEach(async (donhang) => {  // lặp qua các chi tiết 
+          // lấy thông tin sản phẩm
+           const sanpham = await hanghoaService.getById(donhang.idhanghoa);
+           if (sanpham) { // tồn tại sản phẩm
+             // gọi update số lượng
+             const sl = sanpham.soluong + donhang.soluong;
+             const updatesp = {
+              soluong: sl
+             }
+             console.log('Tồn kho ' + sanpham.soluong);
+             console.log("so lượng đơn đặt " + donhang.soluong);
+             console.log("số lượng update " +sl);
+             const resu = await hanghoaService.update(sanpham._id,updatesp);
+
+           } 
+        });
+      
+      }
+
          this.getSPdathang();
          this.$router.push({   name: 'DonHang',
                 query: {id: this.$route.query.id} });
@@ -216,7 +240,7 @@
   }
   
 .icon-xoa{
-    font-size: 2rem;
+    font-size: 1.2rem;
     text-align: center;
     color: rgb(215, 78, 78);
     cursor: pointer;
@@ -227,13 +251,13 @@
     color: rgb(107, 107, 107);
 }
 .icon-chitiet{
-     font-size: 2rem;
+     font-size: 1.5rem;
     text-align: center;
     color: #659fa5;
     cursor: pointer;
   }
 .icon-chitiet-huy{
-  font-size: 2rem;
+  font-size: 1.5rem;
     text-align: center;
     color: rgb(107, 107, 107);
 }

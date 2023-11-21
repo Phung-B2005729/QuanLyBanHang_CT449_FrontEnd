@@ -88,10 +88,40 @@
                   <ErrorMessage name="repassword" class="error-feedback" />      
           </div>        
       </div>
+      <div class="row mb-3 mt-3 form-group" >
+        <label for="repassword" class="form-label col-3">Quyền tài khoản<span class="error">*:</span></label>
+        <div class="col-3">
+            <select 
+                            name="quyen"
+                            class="form-select"
+                            v-model="nguoidungLocal.quyen"
+                            
+                        >
+                                <option selected>{{nguoidungLocal.quyen}}</option>
+                                <option v-if="nguoidungLocal.quyen!=0">0</option>
+                                    <option v-if="nguoidungLocal.quyen!=1">1</option>
+                                    <option v-if="nguoidungLocal.quyen!=2">2</option>
+                                    <option v-if="nguoidungLocal.quyen!=3">3</option>
+                                    <option v-if="nguoidungLocal.quyen!=4">4</option>
+                        
+                           
+                        </select>
+
+        </div>
+        <div class="col-6">
+            <p v-if="nguoidungLocal.quyen==0">Không</p>
+            <p v-if="nguoidungLocal.quyen==1">Quản lý tất cả</p>
+            <p v-if="nguoidungLocal.quyen==2">Quản lý sản phẩm</p>
+            <p v-if="nguoidungLocal.quyen==3">Quản lý đơn hàng</p>
+            <p v-if="nguoidungLocal.quyen==4">Quản lý người dùng</p>
+
+        </div>
+     
+                        </div>
       <div class="row mt-2 mb-5">
         <div class="form-group col-6 offset-7">
         <button class="btn btn-primary m-2">Lưu</button>   
-        <button  type="button" class="m-2 btn btn-danger" @click="deletenguoidung">Xóa</button> </div>
+        <button v-if="mode=='edit'"  type="button" class="m-2 btn btn-danger" @click="deletenguoidung">Xóa</button> </div>
      </div> 
   </Form>
 </template>
@@ -121,11 +151,13 @@
                 //
                 sdt: yup.string().matches(/((09|03|07|08|05)+([0-9]{8})\b)/g,"Số điện thoại không hợp lệ."),
                 chucvu: yup.string().required("Vui lòng nhập vào chức vụ của nhân viên").min(2, "Chức vụ ít nhất 2 kí tự"),
-                password: yup.string().required("Vui lòng nhập vào mật khẩu của nhân viên").min(8, "Mật khẩu ít nhất 8 kí tự"),
-                repassword: yup.string().required("Vui lòng xác nhận lại mật khẩu đăng ký").oneOf([yup.ref('password')], 'Mật khẩu không trùng khớp'),
+               // password: yup.string().required("Vui lòng nhập vào mật khẩu của nhân viên").min(8, "Mật khẩu ít nhất 8 kí tự"),
+               // repassword: yup.string().required("Vui lòng xác nhận lại mật khẩu đăng ký").oneOf([yup.ref('password')], 'Mật khẩu không trùng khớp'),
+               repassword: yup.string().oneOf([yup.ref('password')], 'Mật khẩu không trùng khớp'),
+              
             });
             return {
-                nguoidungLocal: this.nguoidung || { hoten: "", sdt: "", diachi: "", password: "", repassword: "", chucvu: "" },
+                nguoidungLocal: this.nguoidung || { hoten: "", sdt: "", diachi: "", password: "", repassword: "", chucvu: "", quyen: 0 },
                 nguoidungFormSchema,
             };
         },

@@ -122,7 +122,7 @@
      <div class="row mt-2 mb-5">
         <div class="form-group col-6 offset-6">
             <button class="btn btn-primary m-2">Lưu</button>   
-            <button  type="button" class="m-2 btn btn-danger" @click="deleteHangHoa">Xóa</button> </div>
+            <button v-if="mode=='edit'"   type="button" class="m-2 btn btn-danger" @click="deleteHangHoa">Xóa</button> </div>
      </div> 
       
     </Form>
@@ -156,7 +156,14 @@ import loaihangService from "@/services/loaihang.service";
                 // định nghĩa các ràng buộc dữ liệu nhập vào
                 name: yup.string().required("Tên phải có giá trị.").min(2, "Tên phải ít nhất 2 ký tự."),
                 thuonghieu: yup.string().required("Thương hiệu phải có giá trị."),
-                hansudung: yup.string().required("Hạn sử dụng không được bỏ trống."),
+                hansudung: yup.string()
+            .required("Hạn sử dụng không được bỏ trống.")
+            .test('date-order', 'Hạn sử dụng phải sau ngày sản xuất', function (value) {
+                const ngaySanXuat = this.parent.ngaysanxuat;
+                if (!ngaySanXuat || !value) {
+                    return true; // Nếu một trong hai không có giá trị, thì coi như là hợp lệ
+                }
+                return new Date(value) > new Date(ngaySanXuat);  }),
                 ngaysanxuat: yup.string().required("Ngày sản xuất không được bỏ trống."),
                 //
             

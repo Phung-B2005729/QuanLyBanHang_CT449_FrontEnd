@@ -237,6 +237,12 @@ export default {
       mounted() {
               this.refreshList(); // gọi làm mới danh sách khi trang được tải
           },
+      beforeMount(){
+        if(this.session_admin!=null && (this.session_admin.quyen==0 || this.session_admin.quyen==2 || this.session_admin.quyen==4)){
+          alert('Bạn không có quyền truy cập vào quản lý đơn hàng');
+          this.$router.push({ path: "/admin" });
+        }
+      }
   };
 </script>
 <style scoped>
