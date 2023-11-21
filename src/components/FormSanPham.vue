@@ -163,8 +163,16 @@ import loaihangService from "@/services/loaihang.service";
                 if (!ngaySanXuat || !value) {
                     return true; // Nếu một trong hai không có giá trị, thì coi như là hợp lệ
                 }
+                // hạn sử dụng > ngày sản xuất true cho qua
                 return new Date(value) > new Date(ngaySanXuat);  }),
-                ngaysanxuat: yup.string().required("Ngày sản xuất không được bỏ trống."),
+
+                ngaysanxuat: yup.string().required("Ngày sản xuất không được bỏ trống.")
+                    .test('not-in-future', 'Ngày sản xuất không được vượt quá ngày hiện tại', function (value) {
+                        const currentDate = new Date();
+                        const selectedDate = new Date(value); // ngày sản xuất
+                        // ngày sản xuất <= ngày hiện tại true thì cho qua
+                        return selectedDate <= currentDate;
+                    }),
                 //
             
                 //
@@ -207,6 +215,7 @@ import loaihangService from "@/services/loaihang.service";
                     this.$emit("submit:hanghoa", this.HangHoaLocal,null);  // sự kiện submit
                     }
                     else if(!this.fileupload && this.mode!='edit'){
+                        alert('Bạn chưa thêm ảnh cho sản phẩm');
                         console.error("No file selected.");
                         return;
                     }

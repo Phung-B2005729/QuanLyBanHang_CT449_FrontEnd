@@ -42,6 +42,17 @@ export default {
     soluong: {default: 1},
     idkhachhang: {default: null},
   },
+  watch: {
+    sanpham: {
+                handler(newVal) {
+                    this.data = { idkhachhang: this.idkhachhang, idhanghoa: newVal._id, gia: newVal.gia, soluong: newVal.soluong==0 ? 0 : this.soluong };
+                    this.thongtinsanpham = newVal;
+                    this.message=null
+                },
+                immediate: true,
+                },
+    },    
+            
     data() {
       return {
         thongtinsanpham: this.sanpham,
@@ -61,15 +72,20 @@ export default {
     },
    async submitthemgiohang()  {
     try{
+      
     
       const document = await giohangService.getByIdKhacHangVaIdSP(this.idkhachhang, this.thongtinsanpham._id);
      
     if(document && ((document.soluong + this.data.soluong) > this.thongtinsanpham.soluong)){
       // sản phẩm trong giỏ hàng đã đạt tối đa
-          this.message="Số lượng sản phẩm trong giỏ hàng đã đạt tối đa."
+        //  this.message="Số lượng sản phẩm trong giỏ hàng đã đạt tối đa."
+          this.setMessage("Số lượng sản phẩm trong giỏ hàng đã đạt tối đa.");
           // không cho phép tổng sản phẩm trong giỏ hàng > tồn kho
     }
     else{
+    //  alert('Tên hàng hoá' 
+    //  + this.sanpham._id);
+     // alert('daa id ' + this.data.idhanghoa);
       await this.$emit("submit:themgiohang", this.data);  // sự kiện submit
       this.setMessage('Đã thêm vào giỏ hàng');
     }

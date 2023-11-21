@@ -109,8 +109,8 @@
             // Chuyển các đối tượng  thành chuỗi để tiện cho tìm kiếm.
             hanghoatrings() {
                 return this.listsanpham.map((sanpham) => {
-                     const { tenhh, tenloai,thuonghieu } = sanpham;
-                    return [tenhh,,tenloai, thuonghieu].join("");
+                     const { tenhh, tenloai,thuonghieu, ngaysanxuat, hansudung } = sanpham;
+                    return [tenhh,,tenloai, thuonghieu,ngaysanxuat,hansudung].join("");
                 });
             },
             filteredhanghoa() {
