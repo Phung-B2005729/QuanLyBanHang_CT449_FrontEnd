@@ -111,10 +111,19 @@ export default {
                 console.log("gọi update " + data._id);
                   const resu = await khachhangService.update(data._id, data);
                   this.message = "Cập nhật thông tin thành công";
+                //  this.$router.push({ path: '/canhan/'+ data._id});
                   alert(this.message);  // thông báo thành công
+                  //this.$router.push({ path: '/'});
+              
                  this.getkhachhang();
                  this.formhienthi();
               } catch (error) {
+                if(error.response && error.response.status === 403){
+                        alert('Số điện thoại đã được sử dụng ở một tài khoản khác');
+                    }
+                    else{
+                      alert('Lỗi thử lại');
+                    }
                   console.log(error);
               }
           },

@@ -129,7 +129,7 @@
      <ul class="navbar-nav" id="nguoidung" v-if="this.admin && session_admin!=null">
           <li class="nav-item dropdown danhsachnguoidung">
           <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="dropdownMenuButton1" aria-expanded="false">
-          Amin
+           Admin {{this.admin.hoten}}
           </a>
               <div class="dropdown-menu container danhsach"  aria-labelledby="dropdownMenuButton1">
                  <a class="dropdown-item dangxuat" @click="logout">Đăng xuất</a>
