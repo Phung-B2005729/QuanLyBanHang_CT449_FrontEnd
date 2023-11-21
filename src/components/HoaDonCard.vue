@@ -280,7 +280,8 @@
               return {
                 listspdonhang: [],
                 tongsotien: 0,
-                user: null
+                user: null,
+                
             }
     },
     emits:['updatehoadon','deletehoadon'],
@@ -325,7 +326,14 @@
             this.dondathang.idnhanvien = this.idadmin;
             console.log(this.dondathang.tinhtrang);
             console.log(this.dondathang.ngaygiao);
-            this.$emit("updatehoadon", this.dondathang); 
+            const ngaygiao = new Date(this.dondathang.ngaygiao)
+            const ngaydat = new Date(this.dondathang.ngaydat)
+            if(ngaygiao<ngaydat){
+              alert('Ngày giao hàng phải lớn hơn hoặc bằng ngày đặt hàng')
+            }else{
+              this.$emit("updatehoadon", this.dondathang); 
+            }
+           
             
         },
         async deleteHoaDon(){

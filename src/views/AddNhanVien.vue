@@ -55,6 +55,12 @@ export default {
                   alert(this.message);  // thông báo thành công
                   this.$router.push("/danhsachnhanvien");
               } catch (error) {
+                if(error.response && error.response.status === 400){
+                        alert('Số điện thoại đã được sử dụng.')
+                    }
+                else{
+                        alert('Lỗi dữ liệu, Xin vui lòng thử lại')
+                    }
                   console.log(error);
 
               }

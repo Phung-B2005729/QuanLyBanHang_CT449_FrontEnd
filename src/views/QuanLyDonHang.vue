@@ -190,6 +190,7 @@ export default {
     async updateHoaDon (hoadon){
       try{
         //gọi update
+        hoadon.ngaydat
         const resu = await dathangService.update(hoadon._id, hoadon);
         alert("Cập nhật thành công");
         this.refreshList();
