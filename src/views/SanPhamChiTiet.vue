@@ -75,7 +75,7 @@
         </div>
         <!-- san pham -->
         <section class="container">
-            <div class="row st1" >
+            <div class="row st1 mb-5" >
                 <!--     load du lieu san pham      -->
                 <div class="col-lg-3 col-md-6 mt-3 mb-5" v-for="(sanpham) in listsanpham.filter(sanpham => sanpham._id !== this.sanphams._id)"
                           :key="sanpham._id">
@@ -100,14 +100,19 @@
                                 
                               </div>
                               <div class="col-6">
-                                <a href="" class="hidden_e card-link iconsp "><i class="fa-solid fa-shopping-cart"></i> Thêm vào giỏ hàng</a>
+                                <a  class="hidden_e card-link iconsp themgiohang" @click="themgiohang(sanpham)"><i class="fa-solid fa-shopping-cart"></i> Thêm vào giỏ hàng</a>
                     </div>
+                    </div>
+                    <div class="col-12 text-message">
+                            {{sanpham.message}}
+
+                          </div>
                           
                             </div>
                            
                         </div>
                     </div>
-                </div>
+               
               
             </div>
         </section>
@@ -151,6 +156,7 @@
         if(list){
         await Promise.all(
           list.map(async (sanpham) => {
+            sanpham.message = '';
             const hinhanh = await hinhanhService.getHinhAnhSanPham(sanpham._id);
             if (hinhanh.length > 0) {
               sanpham.linkanh = hinhanh[0].linkanh;
@@ -217,6 +223,45 @@
        
       }
       , 
+      async themgiohang(sanpham)  {
+        try{
+        if(this.session_user==null || (this.session_user && this.session_user.id == null)){
+          alert("Vui lòng đăng nhập tài khoản của bạn")
+          this.$router.push({ name: 'DangNhap' });
+        }
+        else{
+            const document = await giohangService.getByIdKhacHangVaIdSP(this.session_user.id, sanpham._id);
+            
+          if(document && ((document.soluong + 1) > sanpham.soluong)){
+            // sản phẩm trong giỏ hàng đã đạt tối đa
+                sanpham.message="Số lượng sản phẩm trong giỏ hàng đã đạt tối đa."
+                // không cho phép tổng sản phẩm trong giỏ hàng > tồn kho
+          }
+          
+          else{
+            const data = {
+              idkhachhang: this.session_user.id,
+              idhanghoa: sanpham._id,
+              soluong: 1,
+              gia: sanpham.gia
+            }
+            const result = await giohangService.create(data);
+                // thêm và update số lượng sản phẩm trong giỏ hàng;
+                //alert('Thêm giỏ hàng thành công');
+              this.setMessage("Đã thêm vào giỏ hàng", sanpham);
+          }
+    }
+  }
+    catch(error){
+      console.log(error);
+    }
+  },
+  setMessage(message, sanpham) {
+      sanpham.message = message;
+      setTimeout(() => {
+        sanpham.message = null;
+      }, 1000); // 2000 milliseconds (2 seconds)
+    },
      
      
     },
@@ -305,4 +350,10 @@
   .text-hethang b{
     color: #000;
   }
+  .text-message{
+  color: red;
+}
+.themgiohang {
+  cursor: pointer;
+}
   </style>
