@@ -85,11 +85,12 @@
                     this.doanhthu.tongdoanhthu = this.doanhthu.tongdoanhthu + dathang.tongtien;
                     const ngaydat = dathang.ngaydat;
                     console.log(ngaydat);
-                    const dngaydatform = this.convertStringToDate(ngaydat);
+                    const dngaydatform = new Date(ngaydat);
 
                     const ngayHienTai = new Date();
                 
-                    if (dngaydatform.toDateString() === ngayHienTai.toDateString()) {
+                    if (dngaydatform.getMonth() === ngayHienTai.getMonth() &&
+                            dngaydatform.getFullYear() === ngayHienTai.getFullYear() && dngaydatform.getDate()=== ngayHienTai.getDate()) {
                       this.doanhthu.tongdoanhthutrongngay  = this.doanhthu.tongdoanhthutrongngay  + dathang.tongtien;
                    
                     } 

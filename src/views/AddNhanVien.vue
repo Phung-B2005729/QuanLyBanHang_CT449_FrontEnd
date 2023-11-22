@@ -7,7 +7,7 @@
           <div clas="pchr" >
               <hr style="width: 5rem;flex-grow: 1; height: 3px; margin-right: 1rem;">
           </div>
-           <h5 class=" mb-2 text-giohang">Thêm Sản Phẩm</h5>
+           <h5 class=" mb-2 text-giohang">Thêm Nhân Viên</h5>
           <div clas="pchr">
               <hr style="width: 5rem;flex-grow: 1; height: 3px;margin-left: 1rem;">
           </div>

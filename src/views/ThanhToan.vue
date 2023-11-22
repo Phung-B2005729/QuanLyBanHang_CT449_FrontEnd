@@ -343,7 +343,7 @@
             return "0 VND";
         },
         async  submitthanhtoan(){
-          
+         
             // thêm đặt hàng;
             try{
             const idkhachhang = this.$route.query.id;
@@ -390,8 +390,8 @@
     
             }
           }
+       
           
-   
     },
     async created() {
       this.getSPGioHang();
